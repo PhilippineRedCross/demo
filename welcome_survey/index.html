@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <title>Welcome Survey</title>
+    <link rel="shortcut icon" href="images/favicon.ico" type="image/x-icon">
+    <link rel="icon" href="images/favicon.ico" type="image/x-icon">
+
+    <link href="css/bootstrap.min.css" rel="stylesheet" />
+    <link href="css/custom.css" rel="stylesheet" />
+
+    <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
+    <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+    <!--[if lt IE 9]>
+      <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+      <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
+    <![endif]-->
+    
+  </head>
+
+  <body>
+    <div class="navbar navbar-inverse navbar-fixed-top">
+      <div class="navbar-inner">
+        <div>
+          <a class="navbar-brand navbar-logo" href="#" target="_blank"><img class="prc-logo" src="img/PRC-logo.png"></a>
+          <a class="navbar-brand" href="http://www.redcross.org.ph/">Philippine Red Cross</a>
+          <a class="navbar-brand" href="#"><small>Mobile Data Collection Training</small></a>
+        </div>
+      </div>
+    </div>
+     
+    <div class="container">
+      <h1>Welcome Survey Results!<h1> 
+      <h2>Responses: <span id="results-count"></span> </h2>
+      <h3><span id="results-female"></span> female and <span id="results-male"></span> male</h3>
+      <div id="gender-icons"></div>
+      <h3>Average age is <span id="averageAge"></span> years.</h3>
+      <hr>
+      <h3><span id="pizzaFanPerc"></span> are fans of pizza!</h3>
+      <h3>What about favorite pet?</h3>
+      <div class="row">
+        <div class="col-sm-3 col-pet">
+          <img src="img/doge.jpg" style="margin:10px;">
+          <h3><span id="dogFans"></span> fans!</h3>
+        </div>
+        <div class="col-sm-3 col-pet">
+          <img src="img/grumpy_cat.jpg" style="margin:10px;">
+          <h3><span id="catFans"></span> fans!</h3>
+        </div>
+        <div class="col-sm-3 col-pet">
+          <img src="img/goldfish.jpg" style="margin:10px;">
+          <h3><span id="goldfishFans"></span> fans!</h3>
+        </div>
+        <div class="col-sm-3 col-pet">
+          <img src="img/pet_rock.jpg" style="margin:10px;">
+          <h3><span id="rockFans"></span> fans!</h3>
+        </div>
+      </div>
+      
+
+
+      
+    </div> <!-- /.container -->
+
+    <script src="js/jQuery.min.js"></script>
+    <script src="js/bootstrap.min.js"></script>
+    <script src="js/d3.min.js"></script>
+    <script src="js/main.js"></script>
+
+  </body>
+</html>
