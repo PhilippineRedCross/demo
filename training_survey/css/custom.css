@@ -4,8 +4,7 @@ html, body {
   margin:0px;  
 }
 .interview-img{
-  width: 200px;
-  display:inline-block;
+  /*display:inline-block;*/
   margin: 3px;
 }
 

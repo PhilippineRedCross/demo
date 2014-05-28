@@ -46,7 +46,8 @@ var Lmap = new L.Map("map", {
   center: [11.04197, 124.96296], 
   zoom: 8, 
   minZoom: 8,
-  // scrollWheelZoom: false,
+  scrollWheelZoom: false,
+  touchZoom: false,
   layers: [greyscale]
 });
 
@@ -210,7 +211,7 @@ function mapData(){
 function showImages(){
     $(surveyData).each(function(aIndex,a){
         if(a.picture_image !== "n/a"){
-            var imageHtml = '<img class="interview-img"'+' src="images/' + a.picture_image + '">'; 
+            var imageHtml = '<img height="200" class="interview-img"'+' src="images/JPEG/' + a.picture_image + '">'; 
             $("#images").append(imageHtml);
         }
         
