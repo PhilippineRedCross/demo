@@ -125,6 +125,7 @@ function getProgressData() {
 
 function checkForImages(markerObj){
   $("#houseImg").empty();
+  $("#beamImg").empty();
   var marker = markerObj;
   $(progressData).each(function(aIndex, a){
     if(marker["house_code"] === a["house_code"]){
