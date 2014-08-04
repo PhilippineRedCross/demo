@@ -10,6 +10,16 @@ body {
   padding-top: 50px;
 }
 
+#loading {
+  position: absolute;
+  z-index: 99999;
+  width: 100%;
+  text-align: center;
+}
+#loader{
+  height: 0px;
+}
+
 .btn:focus, .btn:active {
   outline: 0 !important;
 }

@@ -55,6 +55,24 @@ Lmap._initPathRoot()
 var svg = d3.select("#map").select("svg");
 var shelterMarkers = svg.append('g').attr("id", "shelterMarkers");
 
+function getadminLookup(){
+  $.ajax({
+      type: 'GET',
+      url: 'data/admin3_points.geojson',
+      contentType: 'application/json',
+      dataType: 'json',
+      timeout: 10000,        
+      success: function(json) {
+          municipPoints = json;
+          mapMunicip();
+             
+      },
+      error: function(e) {
+          console.log(e);
+      }
+  });
+}
+
 function joinData(){
   d3.csv("data/ShelterData_QR-Registration.csv", function(data) {
     registrationData = data;
@@ -187,6 +205,7 @@ function provinceNumbers(){
       count7.toString() + "</td></tr>";
     $("#table-content").append(thisProvinceHtml);  
   });
+$("#loading").remove();
 }
 
 function toggleProvince(province, target){
