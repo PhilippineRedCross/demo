@@ -38,10 +38,6 @@ circle {
   font-weight: bold;
 }
 
-.genderIcon {
-  height: 20px;
-}
-
 #loading {
   position: absolute;
   z-index: 99999;
