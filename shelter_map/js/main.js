@@ -55,23 +55,7 @@ Lmap._initPathRoot()
 var svg = d3.select("#map").select("svg");
 var shelterMarkers = svg.append('g').attr("id", "shelterMarkers");
 
-function getadminLookup(){
-  $.ajax({
-      type: 'GET',
-      url: 'data/admin3_points.geojson',
-      contentType: 'application/json',
-      dataType: 'json',
-      timeout: 10000,        
-      success: function(json) {
-          municipPoints = json;
-          mapMunicip();
-             
-      },
-      error: function(e) {
-          console.log(e);
-      }
-  });
-}
+
 
 function joinData(){
   d3.csv("data/ShelterData_QR-Registration.csv", function(data) {
@@ -104,12 +88,7 @@ function joinData(){
 
           percentComplete(a);
           a["lastUpdate"] = thisDate;
-          // GEO
-          var thisPCode = a["web_code"].slice(2,13);
-          a["province"] = adminLookup[thisPCode]["NAME_1"];
-          a["municipality"] = adminLookup[thisPCode]["NAME_2"];
-          a["barangay"] = adminLookup[thisPCode]["NAME_3"];
-          a["pop2010"] = adminLookup[thisPCode]["POPULATION"];
+
         } else {
           console.log(a.house_code + " is repeated in the registration data.");
         }
@@ -413,11 +392,10 @@ function d3Draw(){
         
         d3.select("#shelterMarkers").selectAll("circle").attr("r", 5).attr('stroke','black');
         d3.select(this).attr("r", 9).attr('stroke','red');
-
-        var thisPCode = d["web_code"].slice(2,13);
-        $("#houseBrgy").html(adminLookup[thisPCode]["NAME_3"]);
-        $("#houseMunicip").html(adminLookup[thisPCode]["NAME_2"]);
-        $("#houseProv").html(adminLookup[thisPCode]["NAME_1"]);
+        
+        $("#houseBrgy").html(d["barangay"]);
+        $("#houseMunicip").html(d["municipality"]);
+        $("#houseProv").html(d["province"]);
         var designType = "";
         if(d["web_code"].slice(0,1) == "A"){
           designType = "Wooden Design (type A)";
