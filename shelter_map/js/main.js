@@ -8,9 +8,16 @@ var registrationData = [];
 var progressData = [];
 
 
-var extentGroup = new L.FeatureGroup();
+var activeProvince = "";
+var activeMunicipality = "";
+
+var provincesObject = {};
+var municipObject = {};
+var barangayObject = {};
+
+
 var totalSurveysCount = 0;
-var mappedHeatPoints = [];
+
 
 $("#map").height(mapHeight);
 $("#infoWrapper").height(mapHeight);
@@ -60,17 +67,29 @@ var shelterMarkers = svg.append('g').attr("id", "shelterMarkers");
 function joinData(){
   d3.csv("data/ShelterData_QR-Registration.csv", function(data) {
     registrationData = data;
+    $("#totalHousesCount").html(registrationData.length.toString())
     d3.csv("data/ShelterData_ProgressUpdate.csv", function(data) {
       progressData = data;
       var idList = [];
       $(registrationData).each(function(aIndex, a){
+
+        // check that a house code hasn't already shown up in the data
         if($.inArray(a.web_code, idList) === -1){
           idList.push(a.web_code);
           var thisDate = a["today"];
+          // add in keys for each P-code level
+          a["P3"] = a["web_code"].slice(2,13);
+          a["P2"] = a["web_code"].slice(2,10) + "000";
+          a["P1"] = a["web_code"].slice(2,8) + "00000";
+
+          // add in checklist keys to each Registration entry with value "FALSE"
+          // for those houses with a ProgressUpdate not yet completed
           for(var i = 0; i < checklist.length; i++){
             var checklistItem = checklist[i];
             a[checklistItem] = "FALSE";          
           }
+          // Add a LatLng object to the item
+          a.LatLng = new L.LatLng(a._location_latitude,a._location_longitude);
           $(progressData).each(function(bIndex,b){
             if(a.web_code === b.web_code){
               if(new Date(b["today"]) > new Date(thisDate)){
@@ -85,50 +104,64 @@ function joinData(){
 
             }
           });
-
           percentComplete(a);
           a["lastUpdate"] = thisDate;
-
         } else {
           console.log(a.house_code + " is repeated in the registration data.");
         }
       });
-    createProvinceButtons();
     d3Draw();
     });
   })
 }
 
 
-var provinceList = [];
-var activeProvince = "";
-var activeMuncipality = "";
-var municipalityList = [];
-var barangayList = [];
+function d3Draw(){  
+  var featureShelter = shelterMarkers.selectAll("circle")
+    .data(registrationData)
+    .enter().append("circle").attr("r", 5).attr('stroke','black')
+    .attr('stroke-opacity', 1)
+    .attr('fill','red')
+    .attr('fill-opacity', 0.3)
+    .on("click", function(d){
+      d3.select("#shelterMarkers").selectAll("circle").attr("r", 5).attr('stroke','black');
+      d3.select(this).attr("r", 9).attr('stroke','red');
+      $("#houseBrgy").html(d["barangay"]);
+      $("#houseMunicip").html(d["municipality"]);
+      $("#houseProv").html(d["province"]);
+      var designType = "";
+      if(d["web_code"].slice(0,1) == "A"){
+        designType = "Wooden Design (type A)";
+      } else if (d["web_code"].slice(0,1) == "A"){
+        designType = "Half Concrete (type B)";
+      } else {
+        designType = "data missing";
+      }
+      $("#houseDesign").html(designType);
+      checkForImages(d);
 
+    });
+   
+    function update() {
+      featureShelter.attr("cx",function(d) { return Lmap.latLngToLayerPoint(d.LatLng).x})
+      featureShelter.attr("cy",function(d) { return Lmap.latLngToLayerPoint(d.LatLng).y})
+      // featureShelter.attr("r",function(d) { return 5})
+    }
+    Lmap.on("viewreset", update);
+    update();
+    createProvinceButtons();
+}
 
 
 function createProvinceButtons(){
-  // var underConstructionCount = 0;
-  // var completedCount = 0;
-  $.each(registrationData, function(prjIndex, prj){
-    if( $.inArray(prj["province"], provinceList) === -1){
-      provinceList.push(prj["province"]);
-    }
-    // if(prj["percentComplete"] >= 100){
-    //   completedCount ++;
-    // } else {
-    //   underConstructionCount ++;
-    // }
-  });
-  // $("#totalCompleted").html(completedCount.toString());
-  // $("#totalUnderConstruction").html(underConstructionCount.toString());
-  provinceList.sort();
-  $.each(provinceList, function(provIndex, province){
+  $.each(registrationData, function(prjIndex, prj){    
+    provincesObject[prj["P1"]] = prj["province"];
+  });  
+  for(pcode in provincesObject){
     var btnHtml = '<button type="button" class="btn btn-default btn-sm" onClick="toggleProvince('+
-      "'" + province + "'" +', this);">' + province + "</button>";
+      "'" + pcode + "'" +', this);">' + provincesObject[pcode] + "</button>";
     $("#buttons-province").append(btnHtml);
-  });
+  }
   provinceNumbers();
 }
 
@@ -137,8 +170,8 @@ function provinceNumbers(){
   $("#table-adminLevel").html("Province");
   $("#table-content").empty();
   $("#buttons-municipality").empty();
-  $("#buttons-barangay").empty();
-  $.each(provinceList, function (provIndex, prov){
+  $("#buttons-barangay").empty(); 
+  for(pcode in provincesObject){
     var count0 = 0;
     var count1 = 0;
     var count2 = 0;
@@ -148,7 +181,7 @@ function provinceNumbers(){
     var count6 = 0;
     var count7 = 0;
     $.each(registrationData, function(prjIndex, prj){
-      if(prj["province"] === prov){
+      if(prj["P1"] === pcode){
         count0 ++;
         if(prj["checklist/layoutexcavation"] == "TRUE"){
           count1 ++;
@@ -173,7 +206,7 @@ function provinceNumbers(){
         }
       }
     });
-    var thisProvinceHtml = "<tr><td>" + prov + "</td><td>" + 
+    var thisProvinceHtml = "<tr><td>" + provincesObject[pcode] + "</td><td>" + 
       count0.toString() + "</td><td>" + 
       count1.toString() + "</td><td>" + 
       count2.toString() + "</td><td>" +
@@ -183,32 +216,32 @@ function provinceNumbers(){
       count6.toString() + "</td><td>" +
       count7.toString() + "</td></tr>";
     $("#table-content").append(thisProvinceHtml);  
-  });
+  }
+  filterMarkers("ALL");
 $("#loading").remove();
 }
 
-function toggleProvince(province, target){
-  activeProvince = province;
-  municipalityList = [];
+function toggleProvince(pcode, target){
+  municipObject = {};
+  activeProvince = pcode;
   d3.select("#buttons-province").selectAll(".btn").classed("active", false);
   d3.select(target).classed("active", true);
   $.each(registrationData, function(prjIndex, prj){
-    if(prj["province"] === activeProvince){
-      if( $.inArray(prj["municipality"], municipalityList) === -1){
-        municipalityList.push(prj["municipality"]);
-      }        
+    if(prj["P1"] === activeProvince){
+      municipObject[prj["P2"]] = prj["municipality"];      
     }
   });
-  municipalityList.sort();
+  
   $("#buttons-municipality").empty();
   $("#buttons-barangay").empty();
   $("#buttons-municipality").append('<span class="glyphicon glyphicon-arrow-right"></span> ');
-  $.each(municipalityList, function(municipIndex, municip){
+  for(pcode in municipObject){
     var btnHtml = '<button type="button" class="btn btn-default btn-sm" onClick="toggleMunicip('+
-      "'" + municip + "'" +', this);">' + municip + "</button>";
+      "'" + pcode + "'" +', this);">' + municipObject[pcode] + "</button>";
     $("#buttons-municipality").append(btnHtml);
-  });
+  }
   municipalityNumbers();
+  filterMarkers(pcode);
 }
 
 
@@ -216,7 +249,7 @@ function toggleProvince(province, target){
 function municipalityNumbers(){
   $("#table-adminLevel").html("Muncipality");
   $("#table-content").empty();
-  $.each(municipalityList, function (municipIndex, municip){
+  for(pcode in municipObject){
     var count0 = 0;
     var count1 = 0;
     var count2 = 0;
@@ -226,7 +259,7 @@ function municipalityNumbers(){
     var count6 = 0;
     var count7 = 0;
     $.each(registrationData, function(prjIndex, prj){
-      if(prj["province"] === activeProvince && prj["municipality"] === municip){
+      if(prj["P2"] === pcode){
         count0 ++;
         if(prj["checklist/layoutexcavation"] == "TRUE"){
           count1 ++;
@@ -251,7 +284,7 @@ function municipalityNumbers(){
         }
       }
     });
-    var thisMunicipHtml = "<tr><td>" + municip + "</td><td>" + 
+    var thisMunicipHtml = "<tr><td>" + municipObject[pcode] + "</td><td>" + 
       count0.toString() + "</td><td>" + 
       count1.toString() + "</td><td>" + 
       count2.toString() + "</td><td>" +
@@ -261,34 +294,27 @@ function municipalityNumbers(){
       count6.toString() + "</td><td>" +
       count7.toString() + "</td></tr>";
     $("#table-content").append(thisMunicipHtml);  
-  });
+  }
 }
 
-function toggleMunicip(municip, target){
-  barangayList = [];
-  activeMuncipality = municip;
+function toggleMunicip(pcode, target){
+  barangayObject = {};
+  activeMunicipality = pcode;
   d3.select("#buttons-municipality").selectAll(".btn").classed("active", false);
   d3.select(target).classed("active", true);
   $.each(registrationData, function(prjIndex, prj){
-    if(prj["province"] === activeProvince && prj["municipality"] === activeMuncipality){
-      if( $.inArray(prj["barangay"], barangayList) === -1){
-        barangayList.push(prj["barangay"]);
-      }        
+    if(prj["P2"] === activeMunicipality){
+      barangayObject[prj["P3"]] = prj["barangay"];    
     }
   });
-  barangayList.sort();
-  // $("#buttons-barangay").empty();
-  // $.each(barangayList, function(brgyIndex, brgy){
-  //   var btnHtml = '<button type="button" class="btn btn-default btn-xs">' + brgy + "</button>";
-  //   $("#buttons-barangay").append(btnHtml);
-  // });
   brgyNumbers();
+  filterMarkers(pcode);
 }
 
 function brgyNumbers(){
   $("#table-adminLevel").html("Barangay");
   $("#table-content").empty();
-  $.each(barangayList, function (brgyIndex, brgy){
+  for(pcode in barangayObject){
     var count0 = 0;
     var count1 = 0;
     var count2 = 0;
@@ -298,7 +324,7 @@ function brgyNumbers(){
     var count6 = 0;
     var count7 = 0;
     $.each(registrationData, function(prjIndex, prj){
-      if(prj["province"] === activeProvince && prj["municipality"] === activeMuncipality && prj["barangay"] === brgy){
+      if(prj["P3"] === pcode){
         count0 ++;
         if(prj["checklist/layoutexcavation"] == "TRUE"){
           count1 ++;
@@ -323,7 +349,7 @@ function brgyNumbers(){
         }
       }
     });
-    var thisBrgyHtml = "<tr><td>" + brgy + "</td><td>" + 
+    var thisBrgyHtml = '<tr><td onClick="filterMarkers('+"'"+pcode+"'"+')">' + barangayObject[pcode] + "</td><td>" + 
       count0.toString() + "</td><td>" +
       count1.toString() + "</td><td>" + 
       count2.toString() + "</td><td>" +
@@ -333,7 +359,7 @@ function brgyNumbers(){
       count6.toString() + "</td><td>" +
       count7.toString() + "</td></tr>";
     $("#table-content").append(thisBrgyHtml);  
-  });
+  }
 }
 
 var checklist = [
@@ -375,69 +401,34 @@ function percentComplete(beneficiary){
 
 
 
-function d3Draw(){  
-  
-    /* Add a LatLng object to each item in the dataset */
-    registrationData.forEach(function(d) {
-      d.LatLng = new L.LatLng(d._location_latitude,d._location_longitude)
-    })
 
-    var featureShelter = shelterMarkers.selectAll("circle")
-      .data(registrationData)
-      .enter().append("circle").attr("r", 5).attr('stroke','black')
-      .attr('stroke-opacity', 1)
-      .attr('fill','red')
-      .attr('fill-opacity', 0.3)
-      .on("click", function(d){
-        
-        d3.select("#shelterMarkers").selectAll("circle").attr("r", 5).attr('stroke','black');
-        d3.select(this).attr("r", 9).attr('stroke','red');
-        
-        $("#houseBrgy").html(d["barangay"]);
-        $("#houseMunicip").html(d["municipality"]);
-        $("#houseProv").html(d["province"]);
-        var designType = "";
-        if(d["web_code"].slice(0,1) == "A"){
-          designType = "Wooden Design (type A)";
-        } else if (d["web_code"].slice(0,1) == "A"){
-          designType = "Half Concrete (type B)";
-        } else {
-          designType = "data missing";
-        }
-        $("#houseDesign").html(designType);
-        checkForImages(d);
-        
-        
+function filterMarkers(filter){
+  var northernLat = null;
+  var southernLat = null;
+  var easternLng = null;
+  var westernLng = null;
+  var filteredMarkers = shelterMarkers.selectAll("circle").attr("visibility","hidden")
+    .filter(function(d) {return d.P3 === filter || d.P2 === filter || d.P1 === filter || filter === "ALL" })
+    .attr("visibility", function(d) {
+      var thisLat = parseFloat(d._location_latitude),
+        thisLng = parseFloat(d._location_longitude);
+      if (northernLat === null) northernLat = thisLat;
+      if (southernLat === null) southernLat = thisLat;
+      if (easternLng === null) easternLng = thisLng;
+      if (westernLng === null) westernLng = thisLng;
+      if (thisLat > northernLat) northernLat = thisLat;
+      if (thisLat < southernLat) southernLat = thisLat;
+      if (thisLng < easternLng) easternLng = thisLng;
+      if (thisLng > westernLng) westernLng = thisLng;    
+      return "visible";
+    });
 
-      });
-   
-    function update() {
-      featureShelter.attr("cx",function(d) { return Lmap.latLngToLayerPoint(d.LatLng).x})
-      featureShelter.attr("cy",function(d) { return Lmap.latLngToLayerPoint(d.LatLng).y})
-      // featureShelter.attr("r",function(d) { return 5})
-    }
-    Lmap.on("viewreset", update);
-    update();
-    getExtent();
-  
-}
-
-function getExtent(){
-  $(registrationData).each(function(aIndex, a){
-    totalSurveysCount += 1;
-    var coordinates = [a._location_latitude, a._location_longitude];
-    extentGroup.addLayer(new L.CircleMarker(coordinates, {
-      opacity: 0,
-      fillOpacity: 0
-    }));         
-  });  
-  extentGroup.addTo(Lmap);
-  mapBounds = extentGroup.getBounds();
-  Lmap.removeLayer(extentGroup);
+  mapBounds = L.latLngBounds([[southernLat-0.0008,westernLng],[northernLat+0.0008,easternLng]]);
   Lmap.fitBounds(mapBounds);
-  $("#totalHousesCount").html(totalSurveysCount.toString())
-
 }
+
+
+
 
 
 
