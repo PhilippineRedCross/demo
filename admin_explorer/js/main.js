@@ -31,9 +31,9 @@ var svg = d3.select("#map").append("svg")
     .attr("height", height);
 
 
-var provinceGroup = svg.append('g').attr("id", "province");
-var municipGroup = svg.append('g').attr("id", "municip");
-var brgyGroup = svg.append('g').attr("id", "brgy");
+var provinceGroup = svg.append('g').attr("id", "province-mapped");
+var municipGroup = svg.append('g').attr("id", "municip-mapped");
+var brgyGroup = svg.append('g').attr("id", "brgy-mapped");
 
 
 svg
@@ -69,13 +69,109 @@ svg
   });
 
 
+var livelihoodData = [];
+var shelterData = [];
+var indicatorList = [];
+var partnerList = [];
+var partnerButtons;
+
+
+function loadSector(sector, target){
+  d3.select("#sector-options").selectAll(".btn").classed("active", false);
+  d3.select(target).classed("active", true);
+  if(sector === "livelihood"){
+    indicatorList = [
+      "HH Support Beneficiaries Selected", 
+      "First Installment (conditional PHP 6,000)", 
+      "Second Installment (conditional PHP 4,000)"
+    ]; 
+    if(livelihoodData.length === 0){
+      d3.csv("data/livelihood_20140730.csv", function(data) { 
+        livelihoodData = data;
+        parsePartners(); 
+      });
+    } else {
+      parsePartners();
+    }    
+  }
+  if(sector === "shelter"){
+    indicatorList = [
+      ""
+    ]; 
+    if(shelterData.length === 0){
+      d3.csv("data/shelter_20140730.csv", function(data) { 
+        shelterData = data;
+        parsePartners(); 
+      });
+    } else {
+      parsePartners();
+    }    
+  }
+    
+}
+
+//rebuild partners buttons
+function parsePartners() {
+  partnerList = [];
+  $(currentSectorData()).each(function(index, record){
+    var partnerName = record.Partner;
+    if (partnerList.indexOf(partnerName) === -1){
+        partnerList.push(partnerName);
+    }; 
+  });
+
+  var partnerFilterHtml = '<button id="ALL-PARTNERS" class="btn btn-sm btn-donor filtering all" type="button" onclick="togglePartnerFilter('+"'ALL-DONORS'"+', this);"'+
+      ' style="margin-right:10px;">All<span class="glyphicon glyphicon-check" style="margin-left:4px;"></span></button>';
+  partnerList.sort();
+  $.each(partnerList, function(index, partner){
+    var itemHtml = '<button id="'+partner+'" class="btn btn-sm btn-donor" type="button" onclick="togglePartnerFilter('+"'"+partner+"'"+', this);">'+partner+
+        '<span class="glyphicon glyphicon-unchecked" style="margin-left:4px;"></span></button>';
+    partnerFilterHtml += itemHtml;    
+  });
+  $('#partnerButtons').html(partnerFilterHtml);
+  partnerButtons = $("#partnerButtons").children(); 
+  
+  changePartnerFilter();
+
+}
+
+function changePartnerFilter(){
+  var selectedPartners = [];
+  provinceList = {};
+  municipList = {};
+  brgyList = {};
+  $.each(partnerButtons, function(i, button){
+    if($(button).hasClass("filtering")){
+      var buttonid = $(button).attr("id");
+      selectedPartners.push(buttonid);
+    }
+  });
+  $(currentSectorData()).each(function(index, record){
+    if(selectedPartners.indexOf(record.Partner) != -1  || selectedPartners.indexOf("ALL-PARTNERS") != -1 ){
+      var provinceCode = "PH"+record.Admin2;
+      var municipCode = "PH"+record.Admin3;
+      var brgyCode = "PH"+record.Admin4;
+      provinceList[provinceCode] = record.prov;
+      municipList[municipCode] = record.municip;
+      brgyList[brgyCode] = record.brgy; 
+    }
+    
+  });
+  colorProvinces();
+  colorMunicip();
+  colorBrgy();
+
+}
+
 
 
 function clickedProvince(d) {
-  // if (active.node() === this) return reset();
-  // active.classed("active", false);
-  // active = d3.select(this).classed("active", true);
-  // console.log(d);
+
+  provinceGroup.selectAll("path").classed("active", false);
+  municipGroup.selectAll("path").classed("active", false);
+  brgyGroup.selectAll("circle").classed("active", false);
+  d3.select(this).classed("active", true);
+
   var clickedPcode = d.properties.PCODE_PH1;
   var bounds = path.bounds(d),
       dx = bounds[1][0] - bounds[0][0],
@@ -102,10 +198,29 @@ function clickedProvince(d) {
          $('#tooltip').empty();        
       });
   municipDisplay.exit().remove();
+
+  colorMunicip();
  
 }
 
+
+function createTable(){
+
+  provinceGroup.selectAll(".active").each(function(d,i){
+     console.log(d.properties.PCODE_PH1);
+  });
+  municipGroup.selectAll(".active").each(function(d,i){
+     console.log(d.properties.PCODE_PH2);
+  });
+
+}
+
+
 function clickedMunicip(d){
+
+  municipGroup.selectAll("path").classed("active", false);
+  brgyGroup.selectAll("circle").classed("active", false);
+  d3.select(this).classed("active", true);
 
   var clickedPcode = d.properties.PCODE_PH2;
 
@@ -130,6 +245,104 @@ function clickedMunicip(d){
       .attr("cy", function(d){ return projection(d.coordinates)[1] });
   brgyDisplay.exit().remove();
 
+  colorBrgy();
+
+}
+
+
+
+var provinceList = {};
+var municipList = {};
+var brgyList = {};
+
+
+
+
+
+function colorProvinces(){
+  provinceGroup.selectAll("path").attr("fill", null);
+  for(entry in provinceList){
+    provinceGroup.selectAll("path")
+        .filter(function(d) {return d.properties.PCODE_PH1 == entry})
+        .attr('fill',"red");
+  }
+}
+
+function colorMunicip(){
+  municipGroup.selectAll("path").attr("fill", null);
+  for(entry in municipList){
+    municipGroup.selectAll("path")
+        .filter(function(d) {return d.properties.PCODE_PH2 == entry})
+        .attr('fill',"red");
+  }
+}
+
+function colorBrgy(){
+  brgyGroup.selectAll("circle").attr("fill", null);
+  for(entry in brgyList){
+    brgyGroup.selectAll("circle")
+        .filter(function(d) {return d.PCODE_PH3 == entry})
+        .attr('fill',"#7F181B");
+  }
+}
+
+
+
+function currentSectorData(){
+  var activeSector = $('#sector-options').find('.active').attr('id');
+  if(activeSector === "livelihood"){
+    return livelihoodData;
+  }
+  if(activeSector === "shelter"){
+    return shelterData;
+  }
+}
+
+
+function togglePartnerFilter (filter, element) {
+  // check if filter is for all
+  if($(element).hasClass('all')){
+    $.each(partnerButtons, function(i, button){
+      $(button).children().removeClass("glyphicon-check");
+      $(button).children().addClass("glyphicon-unchecked");
+      $(button).removeClass("filtering");
+    })
+    $(element).children().removeClass("glyphicon-unchecked"); 
+    $(element).children().addClass("glyphicon-check");
+    $(element).addClass("filtering");         
+  } else {
+      // clear the ALL filter for the filter category
+      var partnerAllFilter = $('#partnerButtons').find('.all');
+      $(partnerAllFilter).children().addClass("glyphicon-unchecked");
+      $(partnerAllFilter).children().removeClass("glyphicon-check");
+      $(partnerAllFilter).removeClass("filtering");
+      
+      // if clicked sector filter is on, then turn it off
+      if($(element).hasClass("filtering") === true){
+        $(element).removeClass("filtering");
+        $(element).children().removeClass("glyphicon-check");
+        $(element).children().addClass("glyphicon-unchecked");
+          // if no sector filters are turned on, toggle 'All' back on
+          var noSectorFiltering = true;
+          $.each(partnerButtons, function(i, button){
+            if ($(button).hasClass("filtering")){
+              noSectorFiltering = false;
+            }
+          });
+          if (noSectorFiltering === true){
+            $(partnerAllFilter).children().removeClass("glyphicon-unchecked"); 
+            $(partnerAllFilter).children().addClass("glyphicon-check");
+            $(partnerAllFilter).addClass("filtering");     
+          }
+      // if clicked sector filter is off, then turn it on
+    } else {
+      $(element).addClass("filtering");
+      $(element).children().removeClass("glyphicon-unchecked");
+      $(element).children().addClass("glyphicon-check");                
+    }
+  }
+
+  changePartnerFilter();
 }
 
 

@@ -51,6 +51,20 @@
     <div class="row">
       <button class="btn btn-sm btn-zoom" type="button" onClick="zoomOut();"><span class="glyphicon glyphicon-zoom-out"></span> Full Extent</button> 
     </div>
+    <div id="sector-options" style="margin-left:10px;">
+      <button id="livelihood" class="btn btn-default btn-sm btn-sector" type="button" onClick="loadSector('livelihood', this)"><img class="sector-btn-img" src="img/livelihood.png"> Livelihood</button> 
+      <button id="shelter" class="btn btn-default btn-sm btn-sector" type="button" onClick="loadSector('shelter', this)"><img class="sector-btn-img" src="img/shelter.png"> Shelter</button> 
+
+      <p><h6>
+        <b>Cooperating Partners:</b>
+        <span  id="partnerButtons" style="margin-left:10px;"></span>
+      </h6></p>
+
+      <div id="sector-accomplished">
+
+      </div>
+
+    </div>
 
     </div> <!-- /.container-fluid -->
 
