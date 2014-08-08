@@ -1,3 +1,5 @@
+var pageHeight = $(window).height();
+$("#loader").css("height", pageHeight * 0.75 );
 
 var width = 960,
     height = 500;
@@ -63,7 +65,7 @@ svg
           .on("mouseout", function(){ 
              $('#tooltip').empty();        
           });
-     
+        $("#loading").remove();
       });
     });
   });
@@ -205,12 +207,26 @@ function clickedProvince(d) {
 
 
 function createTable(){
+  var activeProvinceCode = "";
+  var activeProvinceName = "";
 
-  provinceGroup.selectAll(".active").each(function(d,i){
-     console.log(d.properties.PCODE_PH1);
+  // build table headers. blank and then one for each indicator
+
+  provinceGroup.select(".active").each(function(d,i){
+     activeProvinceCode = d.properties.PCODE_PH1;
   });
+ $(currentSectorData()).each(function(index, record){
+    var recordPH = "PH" + record.Admin2;
+    var tableEntries = {};
+    if(recordPH === activeProvinceCode){
+      var entryPH = "PH" + record.Admin3;
+      tableEntries[entryPH] = record.municip;
+
+    }
+ });
+
   municipGroup.selectAll(".active").each(function(d,i){
-     console.log(d.properties.PCODE_PH2);
+     // console.log(d.properties.PCODE_PH2);
   });
 
 }
@@ -360,6 +376,11 @@ $(document).ready(function() {
 
 
 function zoomOut() {
+
+  provinceGroup.selectAll("path").classed("active", false);
+  municipGroup.selectAll("path").classed("active", false);
+  brgyGroup.selectAll("circle").classed("active", false);
+
   brgyGroup.selectAll("circle").remove();
   municipGroup.selectAll("path").remove();
   svg.transition()

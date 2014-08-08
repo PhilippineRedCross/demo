@@ -27,6 +27,7 @@
   <body>
 
     <div id="tooltip"></div>
+    <div id="loading"><img id="loader" src="img/ajax_loader_gray_512.gif" /></div>
     
     <div class="navbar navbar-inverse navbar-fixed-top">
       <div class="navbar-inner">
@@ -49,11 +50,16 @@
       </div> <!-- /.col-map -->
     </div>
     <div class="row">
-      <button class="btn btn-sm btn-zoom" type="button" onClick="zoomOut();"><span class="glyphicon glyphicon-zoom-out"></span> Full Extent</button> 
+      <button class="btn btn-sm btn-zoom" type="button" onClick="zoomOut();"><span class="glyphicon glyphicon-zoom-out"></span> Reset</button> 
     </div>
     <div id="sector-options" style="margin-left:10px;">
       <button id="livelihood" class="btn btn-default btn-sm btn-sector" type="button" onClick="loadSector('livelihood', this)"><img class="sector-btn-img" src="img/livelihood.png"> Livelihood</button> 
       <button id="shelter" class="btn btn-default btn-sm btn-sector" type="button" onClick="loadSector('shelter', this)"><img class="sector-btn-img" src="img/shelter.png"> Shelter</button> 
+      <button disabled="disabled" id="shelter" class="btn btn-default btn-sm btn-sector" type="button" onClick="loadSector('education', this)"><img class="sector-btn-img" src="img/education.png"> Education</button>
+      <button disabled="disabled" id="shelter" class="btn btn-default btn-sm btn-sector" type="button" onClick="loadSector('watsan', this)"><img class="sector-btn-img" src="img/watsan.png"> Water & Sanitation</button>
+      <button disabled="disabled" id="shelter" class="btn btn-default btn-sm btn-sector" type="button" onClick="loadSector('health', this)"><img class="sector-btn-img" src="img/health.png"> Health</button>
+
+
 
       <p><h6>
         <b>Cooperating Partners:</b>
