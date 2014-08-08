@@ -1,2 +1,2 @@
-Haiyan_PartnerAssignment
-========================
+admin_explorer
+==============
