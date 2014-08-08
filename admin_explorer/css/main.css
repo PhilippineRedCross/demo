@@ -1,0 +1,101 @@
+#municip{
+  stroke: white;
+  fill: #dcdcdc;
+}
+#province{
+  stroke: white;
+  fill: #cfcfcf;
+}
+
+svg{
+  background-color: #93d2f0;
+}
+
+
+
+
+/* core css */
+html, body {
+  height: 100%;
+  width: 100%;
+  margin:0px;  
+  background-color: #f5f5f5;
+}
+
+body {
+  padding-top: 50px;
+}
+
+.btn:focus, .btn:active {
+  outline: 0 !important;
+}
+
+.prc-logo {
+  padding: 5px;
+  height: 100%;
+}
+
+.navbar-logo {
+  padding: 0;
+}
+
+
+/* map css */
+
+svg {
+  z-index: 9999;
+}
+
+circle {
+  cursor: pointer;
+}
+
+#tooltip {                      
+    position:absolute;
+    z-index:999;
+    font-size:14px;
+    color: #1a1a1a;       
+    background-color: rgba(245,245,245,1);
+    border-radius: 3px;
+    padding: 2px;       
+}    
+#tooltip:empty {
+    display:none;
+}
+
+.row {
+  margin: 0;
+}
+
+#loading {
+  position: absolute;
+  z-index: 99999;
+  width: 100%;
+  text-align: center;
+}
+#loader{
+  height: 0px;
+}
+.container-fluid, .col-map {
+  padding: 0;
+}
+.btn-zoom {
+/*  position: absolute;
+  left: 47px;
+  top: 10px;*/
+  margin: 10px;
+  z-index: 1001;
+  background-color: #ffffff;
+  border-color: #d7d7d8;
+  font-weight: bold;
+  color: #6d6e70;
+  box-shadow: 1px 1px 3px #535353;
+}
+.leaflet-control-attribution {
+  color: #9f9fa3;
+}
+.leaflet-control-attribution a {    
+  text-decoration: none;
+  cursor: pointer;
+  color: #6d6e70;
+}
