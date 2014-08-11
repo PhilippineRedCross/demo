@@ -29,6 +29,10 @@ body {
   padding-top: 50px;
 }
 
+.totalRow {
+  font-weight: 800;
+}
+
 .btn:focus, .btn:active {
   outline: 0 !important;
 }

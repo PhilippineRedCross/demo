@@ -1,8 +1,10 @@
 var pageHeight = $(window).height();
 $("#loader").css("height", pageHeight * 0.75 );
 
-var width = 960,
-    height = 500;
+var pageWidth = $(window).width();
+
+var width = pageWidth,
+    height = 400;
 
 var projection = d3.geo.mercator()
     .scale(4000)
@@ -17,6 +19,8 @@ var zoom = d3.behavior.zoom()
     .scale(1)
     .scaleExtent([0, 17])
     .on("zoom", zoomed);
+
+var formatCommas = d3.format(",");
 
 function zoomed() {
   provinceGroup.style("stroke-width", 1.5 / d3.event.scale + "px");
@@ -65,7 +69,7 @@ svg
           .on("mouseout", function(){ 
              $('#tooltip').empty();        
           });
-        $("#loading").remove();
+        $("#loading").fadeOut(300);
       });
     });
   });
@@ -77,6 +81,20 @@ var indicatorList = [];
 var partnerList = [];
 var partnerButtons;
 
+function addPH(data){
+  $(data).each(function(index, record){
+    // var provinceCode = "PH"+record.Admin2;
+    // var municipCode = "PH"+record.Admin3;
+    // var brgyCode = "PH"+record.Admin4;
+    // record.Admin2 = provinceCode;
+    // record.Admin3 = municipCode;
+    // record.Admin4 = brgyCode;
+    record.Admin2 = "PH"+record.Admin2;
+    record.Admin3 = "PH"+record.Admin3;
+    record.Admin4 = "PH"+record.Admin4;
+  });
+  return data;
+}
 
 function loadSector(sector, target){
   d3.select("#sector-options").selectAll(".btn").classed("active", false);
@@ -88,8 +106,10 @@ function loadSector(sector, target){
       "Second Installment (conditional PHP 4,000)"
     ]; 
     if(livelihoodData.length === 0){
+      $("#loading").show();
       d3.csv("data/livelihood_20140730.csv", function(data) { 
-        livelihoodData = data;
+        livelihoodData = addPH(data);
+        $("#loading").fadeOut(300);
         parsePartners(); 
       });
     } else {
@@ -98,11 +118,21 @@ function loadSector(sector, target){
   }
   if(sector === "shelter"){
     indicatorList = [
-      ""
+      "Shelter Repair Beneficiaries Selected",
+      "First Distribution (6,000 PHP)",
+      "Second Distribution (4,000 PHP)",
+      "CGI",
+      "Shelter Repair Closeout / Completed",
+      "Core Shelter Beneficiaries Selected",
+      "Construction Started",
+      "Wooden Shelter (Core Shelter)",
+      "Half Concrete (Core Shelter)"
     ]; 
     if(shelterData.length === 0){
+      $("#loading").show();
       d3.csv("data/shelter_20140730.csv", function(data) { 
-        shelterData = data;
+        shelterData = addPH(data);
+        $("#loading").fadeOut(300);
         parsePartners(); 
       });
     } else {
@@ -137,8 +167,11 @@ function parsePartners() {
 
 }
 
+
+var selectedPartners = [];
+
 function changePartnerFilter(){
-  var selectedPartners = [];
+  selectedPartners = [];
   provinceList = {};
   municipList = {};
   brgyList = {};
@@ -150,18 +183,17 @@ function changePartnerFilter(){
   });
   $(currentSectorData()).each(function(index, record){
     if(selectedPartners.indexOf(record.Partner) != -1  || selectedPartners.indexOf("ALL-PARTNERS") != -1 ){
-      var provinceCode = "PH"+record.Admin2;
-      var municipCode = "PH"+record.Admin3;
-      var brgyCode = "PH"+record.Admin4;
-      provinceList[provinceCode] = record.prov;
-      municipList[municipCode] = record.municip;
-      brgyList[brgyCode] = record.brgy; 
+      provinceList[record.Admin2] = record.prov;
+      municipList[record.Admin3] = record.municip;
+      brgyList[record.Admin4] = record.brgy; 
     }
     
   });
   colorProvinces();
   colorMunicip();
   colorBrgy();
+  createTable();
+
 
 }
 
@@ -202,32 +234,116 @@ function clickedProvince(d) {
   municipDisplay.exit().remove();
 
   colorMunicip();
+  createTable();
  
 }
 
+var totalRow = {};
+var breakdownRows = {};
 
 function createTable(){
-  var activeProvinceCode = "";
-  var activeProvinceName = "";
 
-  // build table headers. blank and then one for each indicator
-
-  provinceGroup.select(".active").each(function(d,i){
-     activeProvinceCode = d.properties.PCODE_PH1;
+  var activePcode = "ALL";
+  var activeName = "Haiyan Operation";
+  
+  provinceGroup.selectAll(".active").each(function(d,i){
+    activePcode = d.properties.PCODE_PH1;
+    activeName = d.properties.NAME_1;
+    municipGroup.selectAll(".active").each(function(d,i){
+      activePcode = d.properties.PCODE_PH2;
+      activeName = d.properties.NAME_2;
+    });
   });
- $(currentSectorData()).each(function(index, record){
-    var recordPH = "PH" + record.Admin2;
-    var tableEntries = {};
-    if(recordPH === activeProvinceCode){
-      var entryPH = "PH" + record.Admin3;
-      tableEntries[entryPH] = record.municip;
 
+  totalRow = {};
+  breakdownRows = {};
+    
+  totalRow[activePcode] = { 'name' : activeName };
+  $.each(indicatorList, function(index, indicator){
+    totalRow[activePcode][indicator] = 0;
+  });  
+  $(currentSectorData()).each(function(index, record){
+    if(selectedPartners.indexOf(record.Partner) != -1  || selectedPartners.indexOf("ALL-PARTNERS") != -1 ){
+      // operation overview
+      if("ALL" === activePcode){
+          if(breakdownRows.hasOwnProperty(record.Admin2) === false){
+            breakdownRows[record.Admin2] = { 'name' : record.prov };
+            $.each(indicatorList, function(index, indicator){
+              breakdownRows[record.Admin2][indicator] = 0;
+            });
+          }
+          $.each(indicatorList, function(index, indicator){
+            if(isFinite(parseInt(record[indicator]))){
+              totalRow[activePcode][indicator] += parseInt(record[indicator]);
+              breakdownRows[record.Admin2][indicator] += parseInt(record[indicator]);
+            }
+          });        
+      }
+
+      // province active
+      if(record.Admin2 === activePcode){
+        if(breakdownRows.hasOwnProperty(record.Admin3) === false){
+          breakdownRows[record.Admin3] = { 'name' : record.municip };
+          $.each(indicatorList, function(index, indicator){
+            breakdownRows[record.Admin3][indicator] = 0;
+          });
+        }
+        $.each(indicatorList, function(index, indicator){
+          if(isFinite(parseInt(record[indicator]))){
+            totalRow[activePcode][indicator] += parseInt(record[indicator]);
+            breakdownRows[record.Admin3][indicator] += parseInt(record[indicator]);
+          }
+        });
+      }
+      // muncip active
+      if(record.Admin3 === activePcode){
+        if(breakdownRows.hasOwnProperty(record.Admin4) === false){
+          breakdownRows[record.Admin4] = { 'name' : record.brgy };
+          $.each(indicatorList, function(index, indicator){
+            breakdownRows[record.Admin4][indicator] = 0;
+          });
+        }
+        $.each(indicatorList, function(index, indicator){
+          if(isFinite(parseInt(record[indicator]))){
+            totalRow[activePcode][indicator] += parseInt(record[indicator]);
+            breakdownRows[record.Admin4][indicator] += parseInt(record[indicator]);
+          }
+        });
+      }
     }
- });
-
-  municipGroup.selectAll(".active").each(function(d,i){
-     // console.log(d.properties.PCODE_PH2);
   });
+
+  $("#sector-accomplished_headers").empty();
+  $("#sector-accomplished_content").empty();
+
+  $("#sector-accomplished_headers").append("<th></th>");
+  var columnCount = 0;
+  $.each(indicatorList, function(index, indicator){
+    columnCount ++;
+    $("#sector-accomplished_headers").append("<th>" + indicator + "</th>");
+  });
+  $("#sector-accomplished colgroup").html('<col style="width:20%">');
+  var columnWidth = 80 / columnCount;
+  for(i=0; i<columnCount; i++){
+    $("#sector-accomplished colgroup").append('<col style="width:' + columnWidth.toString() + '%">');
+  }
+
+  for(x in totalRow){
+    var thisHtml = '<tr class="danger totalRow"><td>' + totalRow[x]['name'] + "</td>";
+    $.each(indicatorList, function(index, indicator){
+      thisHtml += "<td>" + formatCommas(totalRow[x][indicator]) + "</td>";
+    });
+    thisHtml += "</tr>";
+    $("#sector-accomplished_content").append(thisHtml);
+  }
+  for(x in breakdownRows){
+    var thisHtml = "<tr><td>" + breakdownRows[x]['name'] + "</td>";
+    $.each(indicatorList, function(index, indicator){
+      thisHtml += "<td>" + formatCommas(breakdownRows[x][indicator]) + "</td>";
+    });
+    thisHtml += "</tr>";
+    $("#sector-accomplished_content").append(thisHtml);
+  }
 
 }
 
@@ -262,6 +378,7 @@ function clickedMunicip(d){
   brgyDisplay.exit().remove();
 
   colorBrgy();
+  createTable();
 
 }
 
@@ -300,6 +417,7 @@ function colorBrgy(){
         .filter(function(d) {return d.PCODE_PH3 == entry})
         .attr('fill',"#7F181B");
   }
+  
 }
 
 
@@ -386,6 +504,9 @@ function zoomOut() {
   svg.transition()
       .duration(750)
       .call(zoom.translate([0, 0]).scale(1).event);
+
+  $("#sector-accomplished_headers").empty();
+  $("#sector-accomplished_content").empty();
 }
 
 
