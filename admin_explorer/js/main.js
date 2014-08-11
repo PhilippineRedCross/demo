@@ -4,11 +4,11 @@ $("#loader").css("height", pageHeight * 0.75 );
 var pageWidth = $(window).width();
 
 var width = pageWidth,
-    height = 400;
+    height = 300;
 
 var projection = d3.geo.mercator()
     .scale(4000)
-    .center([122,12])
+    .center([124,11])
     .translate([width / 2, height / 2]);
 
 var path = d3.geo.path()
@@ -440,7 +440,7 @@ function togglePartnerFilter (filter, element) {
       $(button).children().removeClass("glyphicon-check");
       $(button).children().addClass("glyphicon-unchecked");
       $(button).removeClass("filtering");
-    })
+    });
     $(element).children().removeClass("glyphicon-unchecked"); 
     $(element).children().addClass("glyphicon-check");
     $(element).addClass("filtering");         
@@ -499,13 +499,22 @@ function zoomOut() {
   municipGroup.selectAll("path").classed("active", false);
   brgyGroup.selectAll("circle").classed("active", false);
 
+  $.each(partnerButtons, function(i, button){
+    $(button).children().removeClass("glyphicon-check");
+    $(button).children().addClass("glyphicon-unchecked");
+    $(button).removeClass("filtering");
+  });
+  $("#ALL-PARTNERS").children().removeClass("glyphicon-unchecked"); 
+  $("#ALL-PARTNERS").children().addClass("glyphicon-check");
+  $("#ALL-PARTNERS").addClass("filtering");   
+
   brgyGroup.selectAll("circle").remove();
   municipGroup.selectAll("path").remove();
   svg.transition()
       .duration(750)
       .call(zoom.translate([0, 0]).scale(1).event);
 
-  createTable();
+  changePartnerFilter();
 }
 
 
