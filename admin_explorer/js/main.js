@@ -505,8 +505,7 @@ function zoomOut() {
       .duration(750)
       .call(zoom.translate([0, 0]).scale(1).event);
 
-  $("#sector-accomplished_headers").empty();
-  $("#sector-accomplished_content").empty();
+  createTable();
 }
 
 
