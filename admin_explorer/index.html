@@ -49,17 +49,15 @@
         <div id="map"></div>
       </div> <!-- /.col-map -->
     </div>
-    <div class="row">
+    <div class="row" style="margin:0 10px;">
       <button class="btn btn-sm btn-zoom" type="button" onClick="zoomOut();"><span class="glyphicon glyphicon-zoom-out"></span> Reset</button> 
-    </div>
-    <div id="sector-options" style="margin-left:10px;">
-      <button id="livelihood" class="btn btn-default btn-sm btn-sector" type="button" onClick="loadSector('livelihood', this)"><img class="sector-btn-img" src="img/livelihood.png"> Livelihood</button> 
-      <button id="shelter" class="btn btn-default btn-sm btn-sector" type="button" onClick="loadSector('shelter', this)"><img class="sector-btn-img" src="img/shelter.png"> Shelter</button> 
-      <button disabled="disabled" id="shelter" class="btn btn-default btn-sm btn-sector" type="button" onClick="loadSector('education', this)"><img class="sector-btn-img" src="img/education.png"> Education</button>
-      <button disabled="disabled" id="shelter" class="btn btn-default btn-sm btn-sector" type="button" onClick="loadSector('watsan', this)"><img class="sector-btn-img" src="img/watsan.png"> Water & Sanitation</button>
-      <button disabled="disabled" id="shelter" class="btn btn-default btn-sm btn-sector" type="button" onClick="loadSector('health', this)"><img class="sector-btn-img" src="img/health.png"> Health</button>
-
-
+      <div id="sector-options" style="margin-left:10px;">
+        <button id="livelihood" class="btn btn-default btn-sm btn-sector" type="button" onClick="loadSector('livelihood', this)"><img class="sector-btn-img" src="img/livelihood.png"> Livelihood</button> 
+        <button id="shelter" class="btn btn-default btn-sm btn-sector" type="button" onClick="loadSector('shelter', this)"><img class="sector-btn-img" src="img/shelter.png"> Shelter</button> 
+        <button id="education" class="btn btn-default btn-sm btn-sector" type="button" onClick="loadSector('education', this)"><img class="sector-btn-img" src="img/education.png"> Education</button>
+        <button id="watsan" class="btn btn-default btn-sm btn-sector" type="button" onClick="loadSector('watsan', this)"><img class="sector-btn-img" src="img/watsan.png"> Water & Sanitation</button>
+        <button id="health" class="btn btn-default btn-sm btn-sector" type="button" onClick="loadSector('health', this)"><img class="sector-btn-img" src="img/health.png"> Health</button>
+      </div>
 
       <p><h6>
         <b>Cooperating Partners:</b>

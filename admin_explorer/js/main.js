@@ -77,6 +77,10 @@ svg
 
 var livelihoodData = [];
 var shelterData = [];
+var healthData = [];
+var watsanData = [];
+var educationData = [];
+
 var indicatorList = [];
 var partnerList = [];
 var partnerButtons;
@@ -107,7 +111,7 @@ function loadSector(sector, target){
     ]; 
     if(livelihoodData.length === 0){
       $("#loading").show();
-      d3.csv("data/livelihood_20140730.csv", function(data) { 
+      d3.csv("data/livelihood_20140808.csv", function(data) { 
         livelihoodData = addPH(data);
         $("#loading").fadeOut(300);
         parsePartners(); 
@@ -130,8 +134,79 @@ function loadSector(sector, target){
     ]; 
     if(shelterData.length === 0){
       $("#loading").show();
-      d3.csv("data/shelter_20140730.csv", function(data) { 
+      d3.csv("data/shelter_20140808.csv", function(data) { 
         shelterData = addPH(data);
+        $("#loading").fadeOut(300);
+        parsePartners(); 
+      });
+    } else {
+      parsePartners();
+    }    
+  }
+  if(sector === "health"){
+    indicatorList = [
+      "Facility Selected",
+      "Rehab / Construction Started",
+      "Facility Equipped",
+      "Construction & Handover Completed",
+      "Community Selected",
+      "# Households in Targeted Community",
+      "Facilitators Trained",
+      "CHVs Trained",
+      "Distributed Kits",
+      "Women of Reproductive age reached w/ Maternal and Childcare Promotion",
+      "PSP to Affected Sessions Conducted",
+      "Volunteers trained as Facilitators on PSP-RFL",
+      "Individuals Reached",
+      "PSP for Humanitarians Sessions Conducted",
+      "Humanitarians Reached"
+    ]; 
+    if(healthData.length === 0){
+      $("#loading").show();
+      d3.csv("data/health_20140808.csv", function(data) { 
+        healthData = addPH(data);
+        $("#loading").fadeOut(300);
+        parsePartners(); 
+      });
+    } else {
+      parsePartners();
+    }    
+  }
+  if(sector === "education"){
+    indicatorList = [
+      "Classrooms Selected at School",
+      "Students covered by rehab / constructed classrooms",
+      "Classrooms Completed and Equipped",
+      "5.2 Distribution of School Kits"
+    ]; 
+    if(educationData.length === 0){
+      $("#loading").show();
+      d3.csv("data/education_20140808.csv", function(data) { 
+        educationData = addPH(data);
+        $("#loading").fadeOut(300);
+        parsePartners(); 
+      });
+    } else {
+      parsePartners();
+    }    
+  }
+  if(sector === "watsan"){
+    indicatorList = [
+      "Core Shelter Latrines",
+      "Relocation Latrines",
+      "Reached w/ Hygiene Promotion (PHAST)",
+      "Schools Selected",
+      "School Latrine Construction Completed",
+      "Reached w/ HP (CHAST)",
+      "ECCD Selected",
+      "ECCD latrine Construction Completed",
+      "People Reached w/ CHAST",
+      "# of Hygiene Kit Distributed"
+    ]; 
+    if(watsanData.length === 0){
+      $("#loading").show();
+      d3.csv("data/watsan_20140808.csv", function(data) { 
+        watsanData = addPH(data);
         $("#loading").fadeOut(300);
         parsePartners(); 
       });
@@ -430,6 +505,16 @@ function currentSectorData(){
   if(activeSector === "shelter"){
     return shelterData;
   }
+  if(activeSector === "education"){
+    return educationData;
+  }
+  if(activeSector === "watsan"){
+    return watsanData;
+  }
+  if(activeSector === "health"){
+    return healthData;
+  }
+
 }
 
 
