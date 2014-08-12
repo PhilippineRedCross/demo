@@ -237,7 +237,6 @@ function parsePartners() {
   });
   $('#partnerButtons').html(partnerFilterHtml);
   partnerButtons = $("#partnerButtons").children(); 
-  
   changePartnerFilter();
 
 }
@@ -519,8 +518,8 @@ function currentSectorData(){
 
 
 function togglePartnerFilter (filter, element) {
-  // check if filter is for all
-  if($(element).hasClass('all')){
+  if($(element).hasClass("filtering") !== true){
+  // if clicked element is off turn every button off and turn clicked on   
     $.each(partnerButtons, function(i, button){
       $(button).children().removeClass("glyphicon-check");
       $(button).children().addClass("glyphicon-unchecked");
@@ -530,36 +529,27 @@ function togglePartnerFilter (filter, element) {
     $(element).children().addClass("glyphicon-check");
     $(element).addClass("filtering");         
   } else {
-      // clear the ALL filter for the filter category
-      var partnerAllFilter = $('#partnerButtons').find('.all');
-      $(partnerAllFilter).children().addClass("glyphicon-unchecked");
-      $(partnerAllFilter).children().removeClass("glyphicon-check");
-      $(partnerAllFilter).removeClass("filtering");
-      
-      // if clicked sector filter is on, then turn it off
-      if($(element).hasClass("filtering") === true){
-        $(element).removeClass("filtering");
-        $(element).children().removeClass("glyphicon-check");
-        $(element).children().addClass("glyphicon-unchecked");
-          // if no sector filters are turned on, toggle 'All' back on
-          var noSectorFiltering = true;
-          $.each(partnerButtons, function(i, button){
-            if ($(button).hasClass("filtering")){
-              noSectorFiltering = false;
-            }
-          });
-          if (noSectorFiltering === true){
-            $(partnerAllFilter).children().removeClass("glyphicon-unchecked"); 
-            $(partnerAllFilter).children().addClass("glyphicon-check");
-            $(partnerAllFilter).addClass("filtering");     
-          }
-      // if clicked sector filter is off, then turn it on
-    } else {
-      $(element).addClass("filtering");
-      $(element).children().removeClass("glyphicon-unchecked");
-      $(element).children().addClass("glyphicon-check");                
-    }
+  // if clicked element is on turn it off and turn 'all' filter on
+    $.each(partnerButtons, function(i, button){
+      $(button).children().removeClass("glyphicon-check");
+      $(button).children().addClass("glyphicon-unchecked");
+      $(button).removeClass("filtering");
+    });
+    var partnerAllFilter = $('#partnerButtons').find('.all');
+    $(partnerAllFilter).children().removeClass("glyphicon-unchecked"); 
+    $(partnerAllFilter).children().addClass("glyphicon-check");
+    $(partnerAllFilter).addClass("filtering");
   }
+
+  // // if off turn on, if on leave on
+  // $.each(partnerButtons, function(i, button){
+  //   $(button).children().removeClass("glyphicon-check");
+  //   $(button).children().addClass("glyphicon-unchecked");
+  //   $(button).removeClass("filtering");
+  // });
+  // $(element).children().removeClass("glyphicon-unchecked"); 
+  // $(element).children().addClass("glyphicon-check");
+  // $(element).addClass("filtering");
 
   changePartnerFilter();
 }
@@ -583,7 +573,7 @@ function zoomOut() {
   provinceGroup.selectAll("path").classed("active", false);
   municipGroup.selectAll("path").classed("active", false);
   brgyGroup.selectAll("circle").classed("active", false);
-
+  
   $.each(partnerButtons, function(i, button){
     $(button).children().removeClass("glyphicon-check");
     $(button).children().addClass("glyphicon-unchecked");
