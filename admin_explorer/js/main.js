@@ -271,10 +271,10 @@ function changePartnerFilter(){
 
 }
 
-
+var lastProvince;
 
 function clickedProvince(d) {
-
+  lastProvince = d;
   provinceGroup.selectAll("path").classed("active", false);
   municipGroup.selectAll("path").classed("active", false);
   brgyGroup.selectAll("circle").classed("active", false);
