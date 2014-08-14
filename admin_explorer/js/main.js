@@ -270,6 +270,7 @@ var loadedProvinces = [];
 var loadedMunicipalities = [];
 
 function clickedProvince(d) {
+    
   provinceGroup.selectAll("path").classed("active", false);
   municipGroup.selectAll("path").classed("active", false);
   brgyGroup.selectAll("path").classed("active", false);
@@ -277,6 +278,7 @@ function clickedProvince(d) {
   d3.select(this).classed("active", true);
   // load data if needed
   if($.inArray(d.properties.PCODE_PH1, loadedProvinces) === -1){
+    $("#loading").show();   
     loadedProvinces.push(d.properties.PCODE_PH1);
     var fileUrl = "data/geo/" + d.properties.PCODE_PH1 + ".json";
     d3.json(fileUrl, function(data) {
@@ -291,12 +293,14 @@ function clickedProvince(d) {
 }
 
 function clickedMunicip(d){
+  
   municipGroup.selectAll("path").classed("active", false);
   brgyGroup.selectAll("path").classed("active", false);
 
   d3.select(this).classed("active", true);
   // load data if needed
   if($.inArray(d.properties.PCODE_PH2, loadedMunicipalities) === -1){
+    $("#loading").show(); 
     loadedMunicipalities.push(d.properties.PCODE_PH2);
     var fileUrl = "data/geo/" + d.properties.PCODE_PH2 + ".json";
     d3.json(fileUrl, function(data) {
@@ -335,7 +339,7 @@ function drawBarangays(d){
          $('#tooltip').empty();        
       });
   brgyDisplay.exit().remove();
-
+  $("#loading").fadeOut(400);
   colorBrgy();
   createTable();
 
@@ -368,7 +372,7 @@ function drawMunicipalities(d){
          $('#tooltip').empty();        
       });
   municipDisplay.exit().remove();
-
+  $("#loading").fadeOut(400);
   colorMunicip();
   createTable();
  
