@@ -26,6 +26,11 @@
 
   <body>
 
+  <div id="pageMoveAlert" class="alert alert-warning alert-dismissible" role="alert">
+    <button type="button" class="close custom-close" data-dismiss="alert"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
+    If you are looking for the Haiyan Recovery Map please go to <a href='http://philippineredcross.github.io/yolanda_recovery/'>http://philippineredcross.github.io/yolanda_recovery/</a>.
+  </div>
+
     <div id="tooltip"></div>
     <div id="loading"><img id="loader" src="img/ajax_loader_gray_512.gif" /></div>
     
@@ -53,8 +58,7 @@
     </div>
     <div class="row" style="padding:0 10px;">
 
-      
-    
+         
 
       <div id="sector-options" style="margin-left:10px;">
         <button id="livelihood" class="btn btn-default btn-sm btn-sector" type="button" onClick="loadSector('livelihood', this)"><img class="sector-btn-img" src="img/livelihood.png"> Livelihood</button> 
