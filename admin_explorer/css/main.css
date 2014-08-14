@@ -1,14 +1,17 @@
 #municip-mapped{
   stroke: white;
   fill: #dcdcdc;
+  cursor: pointer;
 }
 #province-mapped{
   stroke: white;
   fill: #cfcfcf;
+  cursor: pointer;
 }
 #brgy-mapped{
   stroke: white;
   fill: #cfcfcf;
+  cursor: pointer;
 }
 
 svg{
