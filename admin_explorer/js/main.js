@@ -42,11 +42,11 @@ var brgyGroup = svg.append('g').attr("id", "brgy-mapped");
 
 
 svg
-    // .call(zoom) // delete this line to disable free zooming
+    .call(zoom) // delete this line to disable free zooming
     .call(zoom.event);
 
 
-d3.json("data/admin1_noLakes.json", function(data) {
+d3.json("data/admin1.json", function(data) {
   provinceData = topojson.feature(data, data.objects.admin1).features;
   provinceGroup.selectAll("path")
     .data(provinceData)
