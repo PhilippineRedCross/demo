@@ -46,12 +46,14 @@
     <div class="row">     
       <div class="col-map">
         
-        <div id="map"></div>
+        <div id="map">
+          <button class="btn btn-sm btn-zoom" type="button" onClick="zoomOut();"><span class="glyphicon glyphicon-zoom-out"></span> Zoom Out</button>
+        </div>
       </div> <!-- /.col-map -->
     </div>
-    <div class="row" style="margin:0 10px;">
+    <div class="row" style="padding:0 10px;">
 
-      <button class="btn btn-sm btn-zoom" type="button" onClick="zoomOut();"><span class="glyphicon glyphicon-zoom-out"></span> Reset View</button>
+      
     
 
       <div id="sector-options" style="margin-left:10px;">
@@ -64,7 +66,7 @@
 
       <p><h6>
         <b>Cooperating Partners:</b>
-        <span  id="partnerButtons" style="margin-left:10px;"></span>
+        <span  id="partnerButtons" style="padding-left:10px;"></span>
       </h6></p>
 
       <div id="sector-accomplished">
