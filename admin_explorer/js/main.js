@@ -25,11 +25,10 @@ var formatCommas = d3.format(",");
 function zoomed() {
   provinceGroup.style("stroke-width", 1.5 / d3.event.scale + "px");
   municipGroup.style("stroke-width", 1 / d3.event.scale + "px");
-  brgyGroup.selectAll("circle").attr("r", 8 / d3.event.scale + "px")
+  brgyGroup.style("stroke-width", 1 / d3.event.scale + "px");
   provinceGroup.attr("transform", "translate(" + d3.event.translate + ")scale(" + d3.event.scale + ")");
   municipGroup.attr("transform", "translate(" + d3.event.translate + ")scale(" + d3.event.scale + ")");
   brgyGroup.attr("transform", "translate(" + d3.event.translate + ")scale(" + d3.event.scale + ")");
-
 }
 
 var svg = d3.select("#map").append("svg")
@@ -47,32 +46,33 @@ svg
     .call(zoom.event);
 
 
-  d3.json("data/adm1_simple10.json", function(data) {
-    provinceData = data;
-    d3.json("data/adm2_simple10.json", function(data) {
-      municipData = data;
-      d3.csv("data/adm3_simple2_Points-clip.csv", function(data) {
-        brgyData = data;
-        $(brgyData).each(function(aIndex, a){
-          a.coordinates = [a.X,a.Y];
-        });
-
-        provinceGroup.selectAll("path")
-          .data(provinceData.features)
-          .enter().append("path")
-          .attr("d",path)
-          .on("click",clickedProvince)
-          .on("mouseover", function(d){ 
-            var tooltipText = "<strong>" + d.properties.NAME_1 + "</strong>";
-            $('#tooltip').append(tooltipText);                
-          })
-          .on("mouseout", function(){ 
-             $('#tooltip').empty();        
-          });
-        $("#loading").fadeOut(300);
-      });
+d3.json("data/admin1_noLakes.json", function(data) {
+  provinceData = topojson.feature(data, data.objects.admin1).features;
+  provinceGroup.selectAll("path")
+    .data(provinceData)
+    .enter().append("path")
+    .attr("d",path)
+    .on("click",clickedProvince)
+    .on("mouseover", function(d){ 
+      var tooltipText = "<strong>" + d.properties.name_1 + "</strong>";
+      $('#tooltip').append(tooltipText);                
+    })
+    .on("mouseout", function(){ 
+       $('#tooltip').empty();        
     });
-  });
+  $("#loading").fadeOut(300);
+});
+
+var municipData;
+var brgyData;
+
+d3.json("data/municipData_empty.json", function(data) {
+  municipData = data;
+});
+d3.json("data/brgyData_empty.json", function(data) {
+  brgyData = data;
+});
+
 
 
 var livelihoodData = [];
@@ -87,12 +87,6 @@ var partnerButtons;
 
 function addPH(data){
   $(data).each(function(index, record){
-    // var provinceCode = "PH"+record.Admin2;
-    // var municipCode = "PH"+record.Admin3;
-    // var brgyCode = "PH"+record.Admin4;
-    // record.Admin2 = provinceCode;
-    // record.Admin3 = municipCode;
-    // record.Admin4 = brgyCode;
     record.Admin2 = "PH"+record.Admin2;
     record.Admin3 = "PH"+record.Admin3;
     record.Admin4 = "PH"+record.Admin4;
@@ -111,7 +105,7 @@ function loadSector(sector, target){
     ]; 
     if(livelihoodData.length === 0){
       $("#loading").show();
-      d3.csv("data/livelihood_20140808.csv", function(data) { 
+      d3.csv("data/recovery_livelihood.csv", function(data) { 
         livelihoodData = addPH(data);
         $("#loading").fadeOut(300);
         parsePartners(); 
@@ -134,7 +128,7 @@ function loadSector(sector, target){
     ]; 
     if(shelterData.length === 0){
       $("#loading").show();
-      d3.csv("data/shelter_20140808.csv", function(data) { 
+      d3.csv("data/recovery_shelter.csv", function(data) { 
         shelterData = addPH(data);
         $("#loading").fadeOut(300);
         parsePartners(); 
@@ -163,7 +157,7 @@ function loadSector(sector, target){
     ]; 
     if(healthData.length === 0){
       $("#loading").show();
-      d3.csv("data/health_20140808.csv", function(data) { 
+      d3.csv("data/recovery_health.csv", function(data) { 
         healthData = addPH(data);
         $("#loading").fadeOut(300);
         parsePartners(); 
@@ -181,7 +175,7 @@ function loadSector(sector, target){
     ]; 
     if(educationData.length === 0){
       $("#loading").show();
-      d3.csv("data/education_20140808.csv", function(data) { 
+      d3.csv("data/recovery_education.csv", function(data) { 
         educationData = addPH(data);
         $("#loading").fadeOut(300);
         parsePartners(); 
@@ -205,7 +199,7 @@ function loadSector(sector, target){
     ]; 
     if(watsanData.length === 0){
       $("#loading").show();
-      d3.csv("data/watsan_20140808.csv", function(data) { 
+      d3.csv("data/recovery_watsan.csv", function(data) { 
         watsanData = addPH(data);
         $("#loading").fadeOut(300);
         parsePartners(); 
@@ -272,14 +266,84 @@ function changePartnerFilter(){
 }
 
 var lastProvince;
+var loadedProvinces = [];
+var loadedMunicipalities = [];
 
 function clickedProvince(d) {
-  lastProvince = d;
   provinceGroup.selectAll("path").classed("active", false);
   municipGroup.selectAll("path").classed("active", false);
-  brgyGroup.selectAll("circle").classed("active", false);
-  d3.select(this).classed("active", true);
+  brgyGroup.selectAll("path").classed("active", false);
 
+  d3.select(this).classed("active", true);
+  // load data if needed
+  if($.inArray(d.properties.PCODE_PH1, loadedProvinces) === -1){
+    loadedProvinces.push(d.properties.PCODE_PH1);
+    var fileUrl = "data/geo/" + d.properties.PCODE_PH1 + ".json";
+    d3.json(fileUrl, function(data) {
+      $.each(data.features, function(index, feature){
+        municipData.features.push(feature);
+      });         
+      drawMunicipalities(d);
+    });
+  } else {
+    drawMunicipalities(d);
+  }
+}
+
+function clickedMunicip(d){
+  municipGroup.selectAll("path").classed("active", false);
+  brgyGroup.selectAll("path").classed("active", false);
+
+  d3.select(this).classed("active", true);
+  // load data if needed
+  if($.inArray(d.properties.PCODE_PH2, loadedMunicipalities) === -1){
+    loadedMunicipalities.push(d.properties.PCODE_PH2);
+    var fileUrl = "data/geo/" + d.properties.PCODE_PH2 + ".json";
+    d3.json(fileUrl, function(data) {
+      $.each(data.features, function(index, feature){
+        brgyData.features.push(feature);
+      });         
+      drawBarangays(d);
+    });
+  } else {
+    drawBarangays(d);
+  }
+}
+
+function drawBarangays(d){
+   
+  var clickedPcode = d.properties.PCODE_PH2;
+  var bounds = path.bounds(d),
+      dx = bounds[1][0] - bounds[0][0]+5,
+      dy = bounds[1][1] - bounds[0][1]+5,
+      x = (bounds[0][0] + bounds[1][0]) / 2,
+      y = (bounds[0][1] + bounds[1][1]) / 2,
+      scale = .9 / Math.max(dx / width, dy / height),
+      translate = [width / 2 - scale * x, height / 2 - scale * y];
+  svg.transition()
+      .duration(750)
+      .call(zoom.translate(translate).scale(scale).event);
+  
+  var brgyDisplay = brgyGroup.selectAll("path")
+      .data(brgyData.features.filter(function(d) {return d.properties.PCODE_PH2 === clickedPcode;}), function(d) { return d.properties.PCODE_PH3; });
+  brgyDisplay.enter().append("path").attr("d",path)
+      .on("mouseover", function(d){ 
+        var tooltipText = d.properties.name_3;
+        $('#tooltip').append(tooltipText);                
+      })
+      .on("mouseout", function(){ 
+         $('#tooltip').empty();        
+      });
+  brgyDisplay.exit().remove();
+
+  colorBrgy();
+  createTable();
+
+}
+
+function drawMunicipalities(d){
+  brgyGroup.selectAll("path").remove();
+  
   var clickedPcode = d.properties.PCODE_PH1;
   var bounds = path.bounds(d),
       dx = bounds[1][0] - bounds[0][0],
@@ -292,14 +356,12 @@ function clickedProvince(d) {
       .duration(750)
       .call(zoom.translate(translate).scale(scale).event);
 
-  brgyGroup.selectAll("circle").remove();
-
   var municipDisplay = municipGroup.selectAll("path")
       .data(municipData.features.filter(function(d) {return d.properties.PCODE_PH1 === clickedPcode;}), function(d) { return d.properties.PCODE_PH2; });
   municipDisplay.enter().append("path")
       .attr("d",path).on("click",clickedMunicip)
       .on("mouseover", function(d){ 
-        var tooltipText = d.properties.NAME_2;
+        var tooltipText = d.properties.name_2;
         $('#tooltip').append(tooltipText);                
       })
       .on("mouseout", function(){ 
@@ -322,10 +384,10 @@ function createTable(){
   
   provinceGroup.selectAll(".active").each(function(d,i){
     activePcode = d.properties.PCODE_PH1;
-    activeName = d.properties.NAME_1;
+    activeName = d.properties.name_1;
     municipGroup.selectAll(".active").each(function(d,i){
       activePcode = d.properties.PCODE_PH2;
-      activeName = d.properties.NAME_2;
+      activeName = d.properties.name_2;
     });
   });
 
@@ -422,39 +484,7 @@ function createTable(){
 }
 
 
-function clickedMunicip(d){
 
-  municipGroup.selectAll("path").classed("active", false);
-  brgyGroup.selectAll("circle").classed("active", false);
-  d3.select(this).classed("active", true);
-
-  var clickedPcode = d.properties.PCODE_PH2;
-
-  var bounds = path.bounds(d),
-      dx = bounds[1][0] - bounds[0][0]+5,
-      dy = bounds[1][1] - bounds[0][1]+5,
-      x = (bounds[0][0] + bounds[1][0]) / 2,
-      y = (bounds[0][1] + bounds[1][1]) / 2,
-      scale = .9 / Math.max(dx / width, dy / height),
-      translate = [width / 2 - scale * x, height / 2 - scale * y];
-  svg.transition()
-      .duration(750)
-      .call(zoom.translate(translate).scale(scale).event);
-
-  var brgyDisplay = brgyGroup.selectAll("circle")
-      .data(brgyData.filter(function(d) { 
-        var thisCode = d.PCODE_PH3.slice(0,8) + "000"; 
-        return thisCode === clickedPcode; 
-      }), function(d) { return d.PCODE_PH3; });
-  brgyDisplay.enter().append("circle")
-      .attr("cx", function(d){ return projection(d.coordinates)[0] })
-      .attr("cy", function(d){ return projection(d.coordinates)[1] });
-  brgyDisplay.exit().remove();
-
-  colorBrgy();
-  createTable();
-
-}
 
 
 
@@ -485,11 +515,11 @@ function colorMunicip(){
 }
 
 function colorBrgy(){
-  brgyGroup.selectAll("circle").attr("fill", null);
+  brgyGroup.selectAll("path").attr("fill", null);
   for(entry in brgyList){
-    brgyGroup.selectAll("circle")
-        .filter(function(d) {return d.PCODE_PH3 == entry})
-        .attr('fill',"#7F181B");
+    brgyGroup.selectAll("path")
+        .filter(function(d) {return d.properties.PCODE_PH3 == entry})
+        .attr('fill',"red");
   }
   
 }
@@ -540,17 +570,6 @@ function togglePartnerFilter (filter, element) {
     $(partnerAllFilter).children().addClass("glyphicon-check");
     $(partnerAllFilter).addClass("filtering");
   }
-
-  // // if off turn on, if on leave on
-  // $.each(partnerButtons, function(i, button){
-  //   $(button).children().removeClass("glyphicon-check");
-  //   $(button).children().addClass("glyphicon-unchecked");
-  //   $(button).removeClass("filtering");
-  // });
-  // $(element).children().removeClass("glyphicon-unchecked"); 
-  // $(element).children().addClass("glyphicon-check");
-  // $(element).addClass("filtering");
-
   changePartnerFilter();
 }
 
@@ -572,7 +591,7 @@ function zoomOut() {
 
   provinceGroup.selectAll("path").classed("active", false);
   municipGroup.selectAll("path").classed("active", false);
-  brgyGroup.selectAll("circle").classed("active", false);
+  brgyGroup.selectAll("path").classed("active", false);
   
   $.each(partnerButtons, function(i, button){
     $(button).children().removeClass("glyphicon-check");
@@ -583,7 +602,7 @@ function zoomOut() {
   $("#ALL-PARTNERS").children().addClass("glyphicon-check");
   $("#ALL-PARTNERS").addClass("filtering");   
 
-  brgyGroup.selectAll("circle").remove();
+  brgyGroup.selectAll("path").remove();
   municipGroup.selectAll("path").remove();
   svg.transition()
       .duration(750)

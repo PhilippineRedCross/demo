@@ -7,7 +7,8 @@
   fill: #cfcfcf;
 }
 #brgy-mapped{
-  fill: #9F9FA3;
+  stroke: white;
+  fill: #cfcfcf;
 }
 
 svg{
