@@ -1,0 +1,409 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+
+    <title>Red Cross: Haiyan One Year</title>
+
+    <!-- 
+    A big thank you to @younghan for the tutorial at 
+    http://alistapart.com/article/hack-your-maps 
+    this page is a leaflet version of his code.
+    -->
+
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    
+    <link href="css/leaflet.css" rel="stylesheet" />
+
+    <style>
+
+      body {
+        margin:0px;
+        padding:0px;
+        font:normal 15px/20px Arial,sans-serif;
+        background:#fff;
+      }
+      article {
+        width:33.3333%;
+        min-width:320px;
+        position:relative;
+        padding-top:40px;
+        padding-bottom:33.3333%;
+      }
+      section {
+        padding:40px;
+        margin-left:40px;
+        position:relative;
+        transition:background 500ms, color 500ms;
+        -moz-transition:background 500ms, color 500ms;
+        -webkit-transition:background 500ms, color 500ms;
+      }
+      section,
+      section a {
+        color:#888;
+        color:rgba(128,128,128,0);
+        text-decoration:none;
+        text-shadow:rgba(64,64,64,1) 0px 0px 4px;
+      }
+      section.active {
+        background:#222;
+        color:#eee;
+      }
+      section.active a { color:#eee; }
+      section.active small { color:#aaa; }
+      h1 { font-size:2em; line-height:1em; }
+      h2 { font-size:1.3333em; }
+      h1,h2 { margin:0px 0px 10px; }
+      p { margin:0px; }
+
+      .scroll {
+        position:absolute;
+        right:0px; bottom:0px;
+        font-size:10px;
+        text-transform:uppercase;
+        padding:5px 10px;
+      }
+      .colophon {
+        display:block;
+        margin-top:10px;
+      }
+
+      .cover:before {
+        content:'';
+        display:block;
+        width:120px; height:120px;
+        margin:0px auto 20px;
+      }
+      .cover.active:before { background:url(sprite-demo.png) 0px -120px no-repeat; }
+
+      #pane {
+        position:fixed;
+        top:0px;
+        bottom:0px;
+        right:0px;
+        width:66.6666%;
+      }
+      #map  {
+        position:absolute;
+        top:0px;
+        bottom:0px;
+        width:200%;
+        left:-50%;
+        transition:opacity 250ms;
+        -moz-transition:opacity 250ms;
+        -webkit-transition:opacity 250ms;
+      }
+      .spot {
+        width:120px !important;
+        height:120px !important;
+        margin:-60px 0px 0px -60px;
+        background:url(sprite-demo.png) 120px 120px no-repeat;
+        position:absolute;
+        }
+      .spot-cover { display:none; }
+      .spot-guiuan { background-position:-130px 0px; }
+      .spot-guiuan.active { background-position:-130px -120px; }
+      .spot-tacloban { background-position:-260px 0px; }
+      .spot-tacloban.active { background-position:-260px -120px; }
+      .spot-bantayan { background-position:-390px 0px; }
+      .spot-bantayan.active { background-position:-390px -120px; }
+      .spot-balasan { background-position:-520px 0px; }
+      .spot-balasan.active { background-position:-520px -120px; }
+      .spot-calamian { background-position:-650px 0px; }
+      .spot-calamian.active { background-position:-650px -120px; }
+      .spot-name6 { background-position:-780px 0px; }
+      .spot-name6.active { background-position:-780px -120px; }
+      .spot-name7 { background-position:-910px 0px; }
+      .spot-name7.active { background-position:-910px -120px; }
+      .spot-name8 { background-position:-1040px 0px; }
+      .spot-name8.active { background-position:-1040px -120px; }
+
+      /* Distinguish the "cover page" visually other sections. */
+      body.section-0 #map { opacity:0.5; }
+
+
+      @media (max-width:640px) {
+        body {
+          font-size:12px;
+          line-height:16px;
+        }
+        article {
+          width:100%;
+          min-width:100%;
+          padding-top:0px;
+          padding-bottom:200%;
+        }
+        section {
+          text-shadow:none;
+          margin-left:0px;
+          padding:30px;
+        }
+        section.active {
+          position:fixed;
+          top:0px; left:0px; right:0px;
+        }
+        #pane { width:100%; }
+        #map  {
+          bottom:0%;
+          left:0%;
+          width:100%;
+          height:150%;
+        }
+      }
+
+      @media (min-width:1280px) {
+        body {
+          font-size:18px;
+          line-height:24px;
+        }
+      }
+
+      .leaflet-container{
+        cursor: default;
+      }
+      .attribution {
+        position: absolute;
+        right:0;
+        bottom:0;
+        z-index: 9999;
+        margin: 0 10px;  
+        font-size: x-small;
+        color: #9f9fa3;
+      }
+      .attribution a {    
+        text-decoration: none;
+        cursor: pointer;
+        color: #6d6e70;
+      }
+
+    </style>
+
+  </head>
+  <body class='section-0'>
+
+    <div id='pane'>
+      <div id='map'></div>
+      <div class='attribution'>
+        Map data &copy; 
+        <a href="http://openstreetmap.org" target="_blank">OpenStreetMap</a> contributors, <a href="http://creativecommons.org/licenses/by-sa/2.0/" target="_blank">CC-BY-SA</a> | Map style by <a href="http://hot.openstreetmap.org" target="_blank">H.O.T.</a> | &copy; <a href="https://ifrc.org/" title="IFRC" target="_blank">IFRC</a> 2014 | <a title="Disclaimer" onClick="showDisclaimer();">Disclaimer</a>
+      </div>
+    </div>
+
+    <article>
+      <section id='cover' class='cover active'>
+        <h1>Typhoon Haiyan</h1>
+        <p>The Red Cross Response<br> One Year On</p>
+        <small class='scroll'>Scroll ▼</small>
+      </section>
+      <section id='guiuan'>
+        <h2>Guiuan, Eastern Samar</h2>
+        <p>Keffiyeh Thundercats narwhal, tousled VHS PBR&B fashion axe irony keytar gluten-free quinoa banh mi flexitarian fixie. American Apparel messenger bag raw denim cardigan. Semiotics vinyl Truffaut, tofu bitters squid +1 ennui banh mi literally tote bag mixtape. Freegan gentrify Echo Park, post-ironic blog yr aesthetic meggings VHS brunch. Flannel direct trade try-hard pork belly. Bicycle rights 90's American Apparel, crucifix hoodie slow-carb letterpress. Banksy shabby chic actually Carles, squid post-ironic chia trust fund crucifix forage Pitchfork Shoreditch gluten-free High Life.</p>
+      </section>
+      <section id='tacloban'>
+        <h2>Tacloban City, Leyte</h2>
+        <p>Truffaut pickled Blue Bottle, Helvetica PBR semiotics distillery typewriter pug tattooed hella kogi Portland sriracha artisan. Freegan synth Godard keytar post-ironic typewriter squid. Actually tote bag church-key, DIY roof party quinoa selfies butcher chia banh mi Odd Future forage hoodie occupy American Apparel. Master cleanse typewriter cardigan, 90's semiotics blog PBR. Sriracha locavore narwhal try-hard put a bird on it slow-carb quinoa. Blog pop-up street art hashtag, Carles VHS raw denim fap kale chips pug hoodie Thundercats retro pork belly chambray. Bitters fixie Intelligentsia, direct trade flexitarian blog viral mustache PBR&B ethical Williamsburg crucifix before they sold out.</p>
+      </section>
+      <section id='bantayan'>
+        <h2>Bantayan, Cebu</h2>
+        <p>Street art selfies DIY butcher. Roof party pop-up kogi photo booth, you probably haven't heard of them Pitchfork synth bitters meh drinking vinegar fap disrupt small batch Carles post-ironic. Readymade iPhone next level, meh Bushwick synth drinking vinegar freegan. Meh before they sold out normcore small batch, single-origin coffee flexitarian Cosby sweater ethnic quinoa pour-over drinking vinegar. Synth scenester authentic, kitsch put a bird on it stumptown lo-fi. Cosby sweater PBR cornhole leggings trust fund, Blue Bottle pickled swag cray YOLO fanny pack hashtag. Try-hard ennui meggings, leggings pop-up occupy salvia selfies mixtape seitan selvage church-key Marfa small batch.</p>
+      </section>
+      <section id='balasan'>
+        <h2>Balasan, Iloilo</h2>
+        <p>Vice Helvetica salvia 8-bit Thundercats kogi post-ironic. Raw denim butcher Intelligentsia, narwhal Brooklyn small batch artisan scenester Tumblr normcore deep v. Gentrify dreamcatcher Carles, wayfarers banjo mlkshk before they sold out viral cardigan retro drinking vinegar Helvetica four loko lomo flannel. Mustache kale chips craft beer, synth stumptown raw denim paleo pop-up Portland fixie wolf next level. Single-origin coffee gluten-free Brooklyn tofu, salvia sustainable whatever Tonx vinyl. Pour-over Shoreditch selvage semiotics. Direct trade asymmetrical Portland sartorial VHS cray.</p>
+      </section>
+      <section id='calamian'>
+        <h2>Calamian Islands, Palawan</h2>
+        <p>Kogi messenger bag bespoke shabby chic. YOLO mlkshk +1, quinoa try-hard semiotics actually slow-carb mustache food truck Thundercats distillery leggings whatever. Blog pork belly mixtape pug plaid, scenester crucifix Blue Bottle food truck. Photo booth Tumblr pickled, narwhal you probably haven't heard of them Bushwick mlkshk Cosby sweater occupy keytar master cleanse ugh selvage. Kale chips chia hoodie Pitchfork synth tote bag street art, readymade next level master cleanse put a bird on it actually direct trade kogi. Fanny pack deep v meh, gluten-free Pitchfork street art gentrify. Tonx wayfarers distillery, Thundercats hella semiotics Pitchfork flannel leggings vinyl four loko organic drinking vinegar disrupt Bushwick.</p>
+        <small class='colophon'>
+          Credit or link or something <a href='http://ifrc.org/'>IFRC</a>
+        </small>
+      </section>
+      
+    </article>
+
+    
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
+    <!-- <script src="http://cdn.leafletjs.com/leaflet-0.7.3/leaflet.js"></script> -->
+    <script src="js/leaflet.js"></script>
+    <script src='js/underscore-min.js'></script>
+    <script>
+
+      // geojson points for each story piece
+      var storyPoints = [
+        {
+          "type": "Feature",
+          "properties": {
+            "id": "guiuan"
+          },
+          "geometry": {
+            "type": "Point",
+            "coordinates": [
+            125.73165893554686,
+            11.041625160268966
+            ]
+          }
+        },
+        {
+          "type": "Feature",
+          "properties": {
+            "id": "tacloban"
+          },
+          "geometry": {
+            "type": "Point",
+            "coordinates": [
+            125.01342773437499,
+            11.192547520721186
+            ]
+          }
+        },
+        {
+          "type": "Feature",
+          "properties": {
+            "id": "bantayan"
+          },
+          "geometry": {
+            "type": "Point",
+            "coordinates": [
+            123.74794006347655,
+            11.202651131282447
+            ]
+          }
+        },
+        {
+          "type": "Feature",
+          "properties": {
+            "id": "calamian"
+          },
+          "geometry": {
+            "type": "Point",
+            "coordinates": [
+            120.08880615234376,
+            12.044692844011129
+            ]
+          }
+        },
+        {
+          "type": "Feature",
+          "properties": {
+            "id": "balasan"
+          },
+          "geometry": {
+            "type": "Point",
+            "coordinates": [
+            123.09906005859375,
+            11.454452964438408
+            ]
+          }
+        }];
+      // define tile layer for base map
+      var tileLayerUrl = 'http://{s}.tile.openstreetmap.fr/hot/{z}/{x}/{y}.png';
+      var tileLayer = L.tileLayer(tileLayerUrl);
+      // setup leaflet map with desired options
+      var map = L.map('map', { 
+          dragging: false,
+          touchZoom: false,
+          scrollWheelZoom: false,
+          doubleClickZoom: false,
+          boxZoom: false,
+          keyboard: false,
+          zoomControl: false,
+          attributionControl: false,  
+          zoom: 9,
+          center: [11, 125.7],     
+          layers: [tileLayer]
+      });
+      //add markers to map
+      var markerMap = {};
+      var spots = L.geoJson(storyPoints, {
+        pointToLayer: function (feature, latlng) {
+            var thisIcon = L.divIcon({
+              className: feature.properties.id +' spot spot-' + feature.properties.id,
+              iconAnchor: [60,60]
+            });
+            var thisMarker = L.marker(latlng, {
+              icon: thisIcon, 
+              clickable: false
+            });
+            markerMap[feature.properties.id] = thisMarker;
+            return thisMarker;
+        }
+      }).addTo(map);
+
+      // Array of story section elements.
+      var sections = document.getElementsByTagName('section');
+
+      // Helper to set the active section.
+      var previousActive = 0;
+      var setActive = function(index, ease) {
+        var activeSpotId = sections[index].id;
+        // Set active class on sections
+        _(sections).each(function(s) { s.className = s.className.replace(' active', '') });
+        sections[index].className += ' active';
+        // Set active class on markers
+        $.each($('.spot'), function(index, spotDiv) {     
+          if($(spotDiv).hasClass(activeSpotId)){
+            $(spotDiv).addClass('active');
+          } else {
+            $(spotDiv).removeClass('active');
+          }
+        });
+        
+        // Set a body class for the active section.
+        document.body.className = 'section-' + index;
+
+        // Ease map to active marker.
+        if (ease && previousActive !== index) {
+          console.log('pan it');
+          map.panTo(L.latLng(markerMap[activeSpotId].getLatLng()), {
+            animate: true,
+            duration: 0.75
+          });
+          previousActive = index;
+        } else {
+          console.log('nope');
+        }
+
+        return true;
+      };
+
+      // Bind to scroll events to find the active section.
+      window.onscroll = _(function() {
+        // IE 8
+        if (window.pageYOffset === undefined) {
+          var y = document.documentElement.scrollTop;
+          var h = document.documentElement.clientHeight;
+        } else {
+          var y = window.pageYOffset;
+          var h = window.innerHeight;
+        }
+
+        // If scrolled to the very top of the page set the first section active.
+        if (y === 0) return setActive(0, true);
+
+        // Otherwise, conditionally determine the extent to which page must be
+        // scrolled for each section. The first section that matches the current
+        // scroll position wins and exits the loop early.
+        var memo = 0;
+        var buffer = (h * 0.3333);
+        var active = _(sections).any(function(el, index) {
+          memo += el.offsetHeight;
+          return y < (memo-buffer) ? setActive(index, true) : false;
+        });
+
+        // If no section was set active the user has scrolled past the last section.
+        // Set the last section active.
+        if (!active) setActive(sections.length - 1, true);
+      }).debounce(10);
+
+      // Set map to first section.
+      setActive(0, false);
+
+      // show disclaimer text on click of dislcaimer link
+      function showDisclaimer() {
+          window.alert("The maps used do not imply the expression of any opinion on the part of the International Federation of Red Cross and Red Crescent Societies or National Societies concerning the legal status of a territory or of its authorities.");
+      }
+
+    </script>
+
+  </body>
+</html>
