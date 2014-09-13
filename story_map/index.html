@@ -115,12 +115,11 @@
       .spot-name6.active { background-position:-780px -120px; }
       .spot-name7 { background-position:-910px 0px; }
       .spot-name7.active { background-position:-910px -120px; }
-      .spot-name8 { background-position:-1040px 0px; }
-      .spot-name8.active { background-position:-1040px -120px; }
+      .spot-manila { background-position:-1040px 0px; }
+      .spot-manila.active { background-position:-1040px -120px; }
 
       /* Distinguish the "cover page" visually other sections. */
       body.section-0 #map { opacity:0.5; }
-
 
       @media (max-width:640px) {
         body {
@@ -168,7 +167,7 @@
         z-index: 9999;
         margin: 0 10px;  
         font-size: x-small;
-        color: #9f9fa3;
+        color: #78787d;
       }
       .attribution a {    
         text-decoration: none;
@@ -185,14 +184,15 @@
       <div id='map'></div>
       <div class='attribution'>
         Map data &copy; 
-        <a href="http://openstreetmap.org" target="_blank">OpenStreetMap</a> contributors, <a href="http://creativecommons.org/licenses/by-sa/2.0/" target="_blank">CC-BY-SA</a> | Map style by <a href="http://hot.openstreetmap.org" target="_blank">H.O.T.</a> | &copy; <a href="https://ifrc.org/" title="IFRC" target="_blank">IFRC</a> 2014 | <a title="Disclaimer" onClick="showDisclaimer();">Disclaimer</a>
+        <a href="http://openstreetmap.org" target="_blank">OpenStreetMap</a> contributors, <a href="http://creativecommons.org/licenses/by-sa/2.0/" target="_blank">CC-BY-SA</a> | Map style &copy; <a href="https://www.mapbox.com" title="Mapbox" target="_blank">Mapbox</a><!-- Map style by <a href="http://hot.openstreetmap.org" target="_blank">H.O.T.</a> | --> &copy; <a href="https://ifrc.org/" title="IFRC" target="_blank">IFRC</a> 2014 | <a title="Disclaimer" onClick="showDisclaimer();">Disclaimer</a>
       </div>
     </div>
 
     <article>
       <section id='cover' class='cover active'>
         <h1>Typhoon Haiyan</h1>
-        <p>The Red Cross Response<br> One Year On</p>
+        <h4>The Red Cross Response<br> One Year On</h4>
+        <p>Kale chips, cred twee cliche Pitchfork beard 90's skateboard keffiyeh Truffaut Vice. Meggings kitsch 8-bit, next level raw denim keytar mustache polaroid Etsy letterpress tousled.</p>
         <small class='scroll'>Scroll ▼</small>
       </section>
       <section id='guiuan'>
@@ -214,6 +214,10 @@
       <section id='calamian'>
         <h2>Calamian Islands, Palawan</h2>
         <p>Kogi messenger bag bespoke shabby chic. YOLO mlkshk +1, quinoa try-hard semiotics actually slow-carb mustache food truck Thundercats distillery leggings whatever. Blog pork belly mixtape pug plaid, scenester crucifix Blue Bottle food truck. Photo booth Tumblr pickled, narwhal you probably haven't heard of them Bushwick mlkshk Cosby sweater occupy keytar master cleanse ugh selvage. Kale chips chia hoodie Pitchfork synth tote bag street art, readymade next level master cleanse put a bird on it actually direct trade kogi. Fanny pack deep v meh, gluten-free Pitchfork street art gentrify. Tonx wayfarers distillery, Thundercats hella semiotics Pitchfork flannel leggings vinyl four loko organic drinking vinegar disrupt Bushwick.</p>
+      </section>
+      <section id='manila'>
+        <h2>Philippine Red Cross</h2>
+        <p>Rights 90's American Apparel, crucifix hoodie slow-carb letterpress. Banksy shabby chic actually Carles, squid post-ironic chia trust fund crucifix forage Pitchfork Shoreditch gluten-free High Life.</p>
         <small class='colophon'>
           Credit or link or something <a href='http://ifrc.org/'>IFRC</a>
         </small>
@@ -294,9 +298,23 @@
             11.454452964438408
             ]
           }
+        },
+        {
+          "type": "Feature",
+          "properties": {
+            "id": "manila"
+          },
+          "geometry": {
+            "type": "Point",
+            "coordinates": [
+            120.96992,
+            14.59130
+            ]
+          }
         }];
       // define tile layer for base map
-      var tileLayerUrl = 'http://{s}.tile.openstreetmap.fr/hot/{z}/{x}/{y}.png';
+      // var tileLayerUrl = 'http://{s}.tile.openstreetmap.fr/hot/{z}/{x}/{y}.png';
+      var tileLayerUrl = 'http://{s}.tiles.mapbox.com/v3/americanredcross.i4d2d077/{z}/{x}/{y}.png';
       var tileLayer = L.tileLayer(tileLayerUrl);
       // setup leaflet map with desired options
       var map = L.map('map', { 
@@ -335,35 +353,35 @@
       // Helper to set the active section.
       var previousActive = 0;
       var setActive = function(index, ease) {
-        var activeSpotId = sections[index].id;
-        // Set active class on sections
-        _(sections).each(function(s) { s.className = s.className.replace(' active', '') });
-        sections[index].className += ' active';
-        // Set active class on markers
-        $.each($('.spot'), function(index, spotDiv) {     
-          if($(spotDiv).hasClass(activeSpotId)){
-            $(spotDiv).addClass('active');
-          } else {
-            $(spotDiv).removeClass('active');
-          }
-        });
-        
-        // Set a body class for the active section.
-        document.body.className = 'section-' + index;
-
-        // Ease map to active marker.
-        if (ease && previousActive !== index) {
-          console.log('pan it');
-          map.panTo(L.latLng(markerMap[activeSpotId].getLatLng()), {
-            animate: true,
-            duration: 0.75
+          var activeSpotId = sections[index].id;
+          // Set active class on sections
+          _(sections).each(function(s) { s.className = s.className.replace(' active', '') });
+          sections[index].className += ' active';
+          // Set active class on markers
+          $.each($('.spot'), function(index, spotDiv) {     
+            if($(spotDiv).hasClass(activeSpotId)){
+              $(spotDiv).addClass('active');
+            } else {
+              $(spotDiv).removeClass('active');
+            }
           });
-          previousActive = index;
-        } else {
-          console.log('nope');
-        }
+          
+          // Set a body class for the active section.
+          document.body.className = 'section-' + index;
 
-        return true;
+          // Ease map to active marker.
+          if (ease && previousActive !== index) {
+            console.log('pan it');
+            map.panTo(L.latLng(markerMap[activeSpotId].getLatLng()), {
+              animate: true,
+              duration: 1.2
+            });
+            previousActive = index;
+          } else {
+            console.log('nope');
+          }
+
+          return true;
       };
 
       // Bind to scroll events to find the active section.
