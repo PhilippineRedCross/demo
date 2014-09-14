@@ -2,7 +2,7 @@ var pageHeight = $(window).height();
 $("#loader").css("height", pageHeight * 0.75 );
 
 // setup Leaflet map
-var mapHeight = 300;
+var mapHeight = 375;
 var mapBounds = [];
 var registrationData = [];
 var progressData = [];
@@ -235,9 +235,9 @@ function toggleProvince(pcode, target){
   $("#buttons-municipality").empty();
   $("#buttons-barangay").empty();
   $("#buttons-municipality").append('<span class="glyphicon glyphicon-arrow-right"></span> ');
-  for(pcode in municipObject){
+  for(municipPcode in municipObject){
     var btnHtml = '<button type="button" class="btn btn-default btn-sm" onClick="toggleMunicip('+
-      "'" + pcode + "'" +', this);">' + municipObject[pcode] + "</button>";
+      "'" + municipPcode + "'" +', this);">' + municipObject[municipPcode] + "</button>";
     $("#buttons-municipality").append(btnHtml);
   }
   municipalityNumbers();
@@ -469,6 +469,10 @@ function showDisclaimer() {
 }
 
 // get count of markers visible in current map extent
+
+// this doesnt work.. because markers aren't removed from the map
+// this isn't counting markers based on styling but rather based on the coordinates
+// all markers remain on the map even if they aren't seen
 Lmap.on('moveend', function(){
   var visibleMarkers = 0;
   var newBounds = Lmap.getBounds();

@@ -10,16 +10,6 @@ body {
   padding-top: 50px;
 }
 
-#pageMoveAlert{
-  position: absolute;
-  z-index: 99999;
-  margin: 30px 30px;
-}
-
-.custom-close{
-  font-size: 36px;
-}
-
 #loading {
   position: absolute;
   z-index: 99999;
