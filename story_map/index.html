@@ -401,7 +401,7 @@
           document.body.className = 'section-' + index;
 
           // Ease map to active marker.
-          if (ease && previousActive !== index) {
+          if (ease && previousActive !== index && markerMap[activeSpotId] !== undefined) {
             console.log('pan it');
             map.panTo(L.latLng(markerMap[activeSpotId].getLatLng()), {
               animate: true,
