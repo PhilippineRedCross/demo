@@ -402,16 +402,12 @@
 
           // Ease map to active marker.
           if (ease && previousActive !== index && markerMap[activeSpotId] !== undefined) {
-            console.log('pan it');
             map.panTo(L.latLng(markerMap[activeSpotId].getLatLng()), {
               animate: true,
               duration: 1.2
             });
             previousActive = index;
-          } else {
-            console.log('nope');
-          }
-
+          } 
           return true;
       };
 
