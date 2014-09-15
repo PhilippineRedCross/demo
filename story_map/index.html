@@ -29,6 +29,7 @@
         position:relative;
         padding-top:40px;
         padding-bottom:33.3333%;
+        z-index:9999;
       }
       section {
         padding:40px;
@@ -48,6 +49,15 @@
       section.active {
         background:#222;
         color:#eee;
+      }
+/*      section.active#image1{
+        background-image:url(img/bgImage_518.jpg);
+        background-repeat: no-repeat;
+        background-size: 90%;
+        background-position: center; 
+      }*/
+      section.active img {
+        visibility: visible !important;
       }
       section.active a { color:#eee; }
       section.active small { color:#aaa; }
@@ -120,6 +130,7 @@
 
       /* Distinguish the "cover page" visually other sections. */
       body.section-0 #map { opacity:0.5; }
+      body.section-1 #map { opacity:0.5; }
 
       @media (max-width:640px) {
         body {
@@ -195,6 +206,10 @@
         <p>Kale chips, cred twee cliche Pitchfork beard 90's skateboard keffiyeh Truffaut Vice. Meggings kitsch 8-bit, next level raw denim keytar mustache polaroid Etsy letterpress tousled.</p>
         <small class='scroll'>Scroll ▼</small>
       </section>
+      <section id='image1' style='text-align:center;'>
+        <img id='img1' src='img/bgImage_518.jpg' alt='img' title='img' style='max-width:100%; height:auto; max-height:100%; visibility:hidden;'>
+        
+      </section>
       <section id='guiuan'>
         <h2>Guiuan, Eastern Samar</h2>
         <p>Keffiyeh Thundercats narwhal, tousled VHS PBR&B fashion axe irony keytar gluten-free quinoa banh mi flexitarian fixie. American Apparel messenger bag raw denim cardigan. Semiotics vinyl Truffaut, tofu bitters squid +1 ennui banh mi literally tote bag mixtape. Freegan gentrify Echo Park, post-ironic blog yr aesthetic meggings VHS brunch. Flannel direct trade try-hard pork belly. Bicycle rights 90's American Apparel, crucifix hoodie slow-carb letterpress. Banksy shabby chic actually Carles, squid post-ironic chia trust fund crucifix forage Pitchfork Shoreditch gluten-free High Life.</p>
@@ -231,6 +246,22 @@
     <script src="js/leaflet.js"></script>
     <script src='js/underscore-min.js'></script>
     <script>
+
+      var height = $(window).height() * 0.80 - 80;
+      var windowWidth = $(window).width();
+      $('#image1').css('max-height', height);
+      $('#image1').width(windowWidth * 0.90 - 120);
+      $('#img1').css('max-height', height - 40);
+
+      // on window resize
+      $(window).resize(function(){    
+        var height = $(window).height() * 0.80 - 80;
+        var windowWidth = $(window).width();
+        $('#image1').css('max-height', height);
+        $('#image1').width(windowWidth * 0.90 - 120);
+        $('#img1').css('max-height', height - 40);
+      })
+
 
       // geojson points for each story piece
       var storyPoints = [
