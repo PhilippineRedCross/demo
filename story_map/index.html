@@ -17,13 +17,38 @@
     <link rel="stylesheet" href="css/bootstrap.min.css" />
 
     <link rel="stylesheet" type="text/css" href="css/leaflet.css" />
+
     <link rel="stylesheet" type="text/css" href="css/custom.css" />
-    
+      
 
   </head>
-  <body class='section-0'> 
+  <body class='section-0'>
 
+    <div id="myImageModal" class="modal fade">
+      <div class="modal-dialog modal-lg">
+        <div class="modal-content modal-content-img">
+          <div class="modal-body modal-body-img">
+            <button type="button" class="close close-imgModal" data-dismiss="modal"><span class="glyphicon glyphicon-remove"></span> <span class="sr-only">Close</span></button>
+            <img class=" modal-img img-responsive" src="#">
+          </div>
+        </div>
+      </div>
+    </div>
 
+    <div id="myVideoModal" class="modal fade">
+      <div class="modal-dialog">
+        <div class="modal-content modal-content-video">
+          <div class="modal-header">
+            <button type="button" class="close close-videoModal pull-right" data-dismiss="modal"><span class="glyphicon glyphicon-remove"></span> <span class="sr-only">Close</span></button>
+          </div>
+          <div class="modal-body">
+            <div class="modal-video"></div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+     <!--  navbar for mobile only -->
   <div class="navbar navbar-default navbar-fixed-top visible-xs-block" role="navigation">
       <div class="container">
         <div class="navbar-header">
@@ -64,60 +89,43 @@
   </div>
     
 
+
     <div id='pane' class="hidden-xs">
-
-
       <div id='map'></div>
       <div class='attribution'>
         Map data &copy; 
         <a href="http://openstreetmap.org" target="_blank">OpenStreetMap</a> contributors, <a href="http://creativecommons.org/licenses/by-sa/2.0/" target="_blank">CC-BY-SA</a> | Map style &copy; <a href="https://www.mapbox.com" title="Mapbox" target="_blank">Mapbox</a><!-- Map style by <a href="http://hot.openstreetmap.org" target="_blank">H.O.T.</a> | --> &copy; <a href="https://ifrc.org/" title="IFRC" target="_blank">IFRC</a> 2014 | <a title="Disclaimer" onClick="showDisclaimer();">Disclaimer</a>
       </div>
-
     </div>
+
 
     <article>
 
-      <section id='cover' class='cover active'>
-
-    <div class="quickNav" data-toggle="tooltip" data-placement="right" title="Quick Navigation"></div>
-
+      <section id='cover' class='cover active'>        
+        <div class="quickNav" data-toggle="tooltip" data-placement="right" title="Quick Navigation"></div>
         <h1>Typhoon Haiyan</h1>
         <h4>The Red Cross Response<br> One Year On</h4>        
-        <p>Kale chips, cred twee cliche Pitchfork beard 90's skateboard keffiyeh Truffaut Vice. Meggings kitsch 8-bit, next level raw denim keytar mustache polaroid Etsy letterpress tousled.</p>
+        <p>One year ago, Typhoon Haiyan struck the Philippines with unprecedented fury. A combination of cyclonic winds, heavy rains and tsunami-like storm surges crushed homes, destroyed livelihoods and infrastructure, and killed thousands of people. The effect on communities was devastating.</p>
 
-     <!--    <div class="btn-group">
-          <button type="button" class="btn dropdown-toggle" data-toggle="dropdown">
-            Livelihood Beneficiary Profiles <span class="caret"></span>
-          </button>
-          <ul class="dropdown-menu" role="menu">
-            <li><a href="#liporada">Maria Redubla Liporada</a></li>
-            <li><a href="#barroa">Restituto B. Barroa</a></li>
-            <li><a href="#rogan">Estifana Rogan</a></li>
-            <li><a href="#calinao">Francisco Calinao</a></li>        
-          </ul>
-        </div>
+        <p><div class="modalVideo" onClick="callVideoModal(this,'ifrcInAction');" ><span class="glyphicon glyphicon-film glyphicon-large"></span>&nbsp; IFRC in Action</div></p>
 
-        <div class="btn-group">
-          <button type="button" class="btn dropdown-toggle" data-toggle="dropdown">
-            Shelter Beneficiary Profiles <span class="caret"></span>
-          </button>
-          <ul class="dropdown-menu" role="menu">       
-            <li class="header">Shelter Beneficiary Profiles</li>
-            <li><a href="#">place holder</a></li>
-            <li><a href="#">place holder</a></li>
-            <li><a href="#">place holder</a></li> 
-          </ul>
-        </div> -->
+        <p>The Red Cross Red Crescent Movement began work immediately, distributing emergency relief to 1.3 million people in the worst affected areas and planning for a long-term recovery focused on shelter and livelihoods.</p>
 
+        <p><div class="modalVideo" onClick="callVideoModal(this,'cashInEmergencies');" ><span class="glyphicon glyphicon-film glyphicon-large"></span>&nbsp; Cash in Emergencies</div></p>
+
+                
         <small class='scroll hidden-xs'>Scroll ▼</small>
-
-
       </section>
 
       <section id='liporada'>
         <div class="quickNav" data-toggle="tooltip" data-placement="right" title="Quick Navigation"></div>
         <h2>Burauen, Leyte</h2>
         <p>Mother of two Maria Redubla Liporada loves to make cakes, but it was only when she received about USD130 in livelihood support from Red Cross that she was able to realise her dream to set up a small bakery.</p> 
+
+        <div class="modalLink" onclick="callImageModal(this);"  >
+        <img class="modalLinkImg img-responsive" src="img/p-PHL2420_small.jpg"></div>
+      
+
         <p>Maria and her family live in a remote upland community in Leyte called Anonang, which was hard hit by Typhoon Haiyan.</p>
         <p>The family was evacuated to higher ground before the typhoon to escape flooding from a nearby river.  When they returned, they found their house and belongings gone and most of their crops destroyed. They had very little left to eat.</p>
         <p>That time was tough for them all, Maria says.</p> 
@@ -186,6 +194,9 @@
     <script src="js/underscore-min.js"></script>
 
 
+     
+
+
     <script> 
 
     </script>
@@ -198,6 +209,40 @@
     <![endif]-->
 
     <script>
+
+
+
+var windowHeight = $(window).height();
+
+$(window).resize(function(){     
+    windowHeight = $(window).height();
+})
+
+function callImageModal (item) {
+  var imgUrl = $(item).find('img').attr("src").slice(0,-9) + 'large.jpg';
+  var img_maxHeight = (windowHeight*0.90).toString() + "px";
+  $(".modal-img").css('max-height', img_maxHeight);
+  $(".modal-img").attr('src', imgUrl);
+  $("#myImageModal").modal();    
+}
+
+function callVideoModal (item, videoId) {
+  var iframeHtml = "";
+  switch(videoId){
+    case 'ifrcInAction':
+    iframeHtml = '<iframe width="560" height="315" src="//www.youtube.com/embed/F0_nC9YWqDQ?autoplay=1&rel=0" frameborder="0" allowfullscreen></iframe>';
+    break;
+    case 'cashInEmergencies':
+    iframeHtml = '<iframe width="560" height="315" src="//www.youtube.com/embed/Xg0hvbP2G0w?autoplay=1&rel=0" frameborder="0" allowfullscreen></iframe>';
+    break;
+  }
+  $(".modal-video").html(iframeHtml);
+  $("#myVideoModal").modal();
+}
+
+$("#myVideoModal").on('hide.bs.modal', function(e) {
+  $(".modal-video").empty();
+});
 
 
 
