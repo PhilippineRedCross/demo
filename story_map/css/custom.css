@@ -207,7 +207,6 @@ body.section-0 #map { opacity:0.5; }
 .modalLinkImg {
   border: 1px solid #2f2f2f;
 }
-
 .close-imgModal {
   position: absolute;
   top: 4px;
@@ -220,15 +219,4 @@ body.section-0 #map { opacity:0.5; }
   color:white;
 }
 
-.modal-content-video {
-  background: #f5f5f5;
-}
-.close-videoModal {
-  margin-right:10px;
-  margin-bottom: 5px;
-  font-size: 26px;
-}
-.modal-header {
-  border: none;
-}
 
