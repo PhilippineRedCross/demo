@@ -13,231 +13,157 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     
-    <link href="css/leaflet.css" rel="stylesheet" />
+    <!-- <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap.min.css" /> -->
+    <link rel="stylesheet" href="css/bootstrap.min.css" />
 
-    <style>
-
-      body {
-        margin:0px;
-        padding:0px;
-        font:normal 15px/20px Arial,sans-serif;
-        background:#fff;
-      }
-      article {
-        width:33.3333%;
-        min-width:320px;
-        position:relative;
-        padding-top:40px;
-        padding-bottom:33.3333%;
-        z-index:9999;
-      }
-      section {
-        padding:40px;
-        margin-left:40px;
-        position:relative;
-        transition:background 500ms, color 500ms;
-        -moz-transition:background 500ms, color 500ms;
-        -webkit-transition:background 500ms, color 500ms;
-      }
-      section,
-      section a {
-        color:#888;
-        color:rgba(128,128,128,0);
-        text-decoration:none;
-        text-shadow:rgba(64,64,64,1) 0px 0px 4px;
-      }
-      section.active {
-        background:#222;
-        color:#eee;
-      }
-/*      section.active#image1{
-        background-image:url(img/bgImage_518.jpg);
-        background-repeat: no-repeat;
-        background-size: 90%;
-        background-position: center; 
-      }*/
-      section.active img {
-        visibility: visible !important;
-      }
-      section.active a { color:#eee; }
-      section.active small { color:#aaa; }
-      h1 { font-size:2em; line-height:1em; }
-      h2 { font-size:1.3333em; }
-      h1,h2 { margin:0px 0px 10px; }
-      p { margin:0px; }
-
-      .scroll {
-        position:absolute;
-        right:0px; bottom:0px;
-        font-size:10px;
-        text-transform:uppercase;
-        padding:5px 10px;
-      }
-      .colophon {
-        display:block;
-        margin-top:10px;
-      }
-
-      .cover:before {
-        content:'';
-        display:block;
-        width:120px; height:120px;
-        margin:0px auto 20px;
-      }
-      .cover.active:before { background:url(sprite-demo.png) 0px -120px no-repeat; }
-
-      #pane {
-        position:fixed;
-        top:0px;
-        bottom:0px;
-        right:0px;
-        width:66.6666%;
-      }
-      #map  {
-        position:absolute;
-        top:0px;
-        bottom:0px;
-        width:200%;
-        left:-50%;
-        transition:opacity 250ms;
-        -moz-transition:opacity 250ms;
-        -webkit-transition:opacity 250ms;
-      }
-      .spot {
-        width:120px !important;
-        height:120px !important;
-        margin:-60px 0px 0px -60px;
-        background:url(sprite-demo.png) 120px 120px no-repeat;
-        position:absolute;
-      }
-      .spot-cover { display:none; }
-      .spot-guiuan { background-position:-130px 0px; }
-      .spot-guiuan.active { background-position:-130px -120px; }
-      .spot-tacloban { background-position:-260px 0px; }
-      .spot-tacloban.active { background-position:-260px -120px; }
-      .spot-bantayan { background-position:-390px 0px; }
-      .spot-bantayan.active { background-position:-390px -120px; }
-/*      .spot-balasan { background-position:-520px 0px; }
-      .spot-balasan.active { background-position:-520px -120px; }*/
-      .spot-calamian { background-position:-650px 0px; }
-      .spot-calamian.active { background-position:-650px -120px; }
-      .spot-name6 { background-position:-780px 0px; }
-      .spot-name6.active { background-position:-780px -120px; }
-      .spot-name7 { background-position:-910px 0px; }
-      .spot-name7.active { background-position:-910px -120px; }
-      .spot-manila { background-position:-1040px 0px; }
-      .spot-manila.active { background-position:-1040px -120px; }
-
-      .spot-balasan {
-        background:url(woman-1.png) no-repeat;
-      }
-      .spot-balasan.active {
-        background:url(woman-1.gif) no-repeat;
-      }
-
-      /* Distinguish the "cover page" visually other sections. */
-      body.section-0 #map { opacity:0.5; }
-      body.section-1 #map { opacity:0.5; }
-
-      @media (max-width:640px) {
-        body {
-          font-size:12px;
-          line-height:16px;
-        }
-        article {
-          width:100%;
-          min-width:100%;
-          padding-top:0px;
-          padding-bottom:200%;
-        }
-        section {
-          text-shadow:none;
-          margin-left:0px;
-          padding:30px;
-        }
-        section.active {
-          position:fixed;
-          top:0px; left:0px; right:0px;
-        }
-        #pane { width:100%; }
-        #map  {
-          bottom:0%;
-          left:0%;
-          width:100%;
-          height:150%;
-        }
-      }
-
-      @media (min-width:1280px) {
-        body {
-          font-size:18px;
-          line-height:24px;
-        }
-      }
-
-      .leaflet-container{
-        cursor: default;
-      }
-      .attribution {
-        position: absolute;
-        right:0;
-        bottom:0;
-        z-index: 9999;
-        margin: 0 10px;  
-        font-size: x-small;
-        color: #78787d;
-      }
-      .attribution a {    
-        text-decoration: none;
-        cursor: pointer;
-        color: #6d6e70;
-      }
-
-    </style>
+    <link rel="stylesheet" type="text/css" href="css/leaflet.css" />
+    <link rel="stylesheet" type="text/css" href="css/custom.css" />
+    
 
   </head>
-  <body class='section-0'>    
+  <body class='section-0'> 
 
-    <div id='pane'>
+
+  <div class="navbar navbar-default navbar-fixed-top visible-xs-block" role="navigation">
+      <div class="container">
+        <div class="navbar-header">
+          <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target=".navbar-collapse">
+            <span class="sr-only">Toggle navigation</span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+          </button>          
+        </div>
+
+        <div class="navbar-collapse collapse">
+          <ul class="nav navbar-nav">
+            <li class="active"><a href="#">Home</a></li>
+            <li><a href="#about">Key Theme</a></li>
+            <li><a href="#contact">Operation Summary</a></li>
+            <li class="dropdown">
+              <a href="#" class="dropdown-toggle" data-toggle="dropdown">Livelihood Beneficary Profiles <span class="caret"></span></a>
+              <ul class="dropdown-menu" role="menu">
+                <li><a href="#liporada">Maria Redubla Liporada</a></li>
+                <li><a href="#barroa">Restituto B. Barroa</a></li>
+                <li><a href="#rogan">Estifana Rogan</a></li>
+                <li><a href="#calinao">Francisco Calinao</a></li>                
+              </ul>
+            </li>
+             <li class="dropdown">
+              <a href="#" class="dropdown-toggle" data-toggle="dropdown">Shelter Beneficary Profiles <span class="caret"></span></a>
+              <ul class="dropdown-menu" role="menu">
+                <li><a href="#">place holder</a></li>
+                <li><a href="#">place holder</a></li>
+                <li><a href="#">place holder</a></li>                
+              </ul>
+            </li>
+          </ul>          
+        </div>
+      </div>
+    </div>
+  </div>
+    
+
+    <div id='pane' class="hidden-xs">
+
+
       <div id='map'></div>
       <div class='attribution'>
         Map data &copy; 
         <a href="http://openstreetmap.org" target="_blank">OpenStreetMap</a> contributors, <a href="http://creativecommons.org/licenses/by-sa/2.0/" target="_blank">CC-BY-SA</a> | Map style &copy; <a href="https://www.mapbox.com" title="Mapbox" target="_blank">Mapbox</a><!-- Map style by <a href="http://hot.openstreetmap.org" target="_blank">H.O.T.</a> | --> &copy; <a href="https://ifrc.org/" title="IFRC" target="_blank">IFRC</a> 2014 | <a title="Disclaimer" onClick="showDisclaimer();">Disclaimer</a>
       </div>
+
     </div>
 
     <article>
+
       <section id='cover' class='cover active'>
+
+    <div class="quickNav" data-toggle="tooltip" data-placement="right" title="Quick Navigation"></div>
+
         <h1>Typhoon Haiyan</h1>
-        <h4>The Red Cross Response<br> One Year On</h4>
+        <h4>The Red Cross Response<br> One Year On</h4>        
         <p>Kale chips, cred twee cliche Pitchfork beard 90's skateboard keffiyeh Truffaut Vice. Meggings kitsch 8-bit, next level raw denim keytar mustache polaroid Etsy letterpress tousled.</p>
-        <small class='scroll'>Scroll ▼</small>
+
+     <!--    <div class="btn-group">
+          <button type="button" class="btn dropdown-toggle" data-toggle="dropdown">
+            Livelihood Beneficiary Profiles <span class="caret"></span>
+          </button>
+          <ul class="dropdown-menu" role="menu">
+            <li><a href="#liporada">Maria Redubla Liporada</a></li>
+            <li><a href="#barroa">Restituto B. Barroa</a></li>
+            <li><a href="#rogan">Estifana Rogan</a></li>
+            <li><a href="#calinao">Francisco Calinao</a></li>        
+          </ul>
+        </div>
+
+        <div class="btn-group">
+          <button type="button" class="btn dropdown-toggle" data-toggle="dropdown">
+            Shelter Beneficiary Profiles <span class="caret"></span>
+          </button>
+          <ul class="dropdown-menu" role="menu">       
+            <li class="header">Shelter Beneficiary Profiles</li>
+            <li><a href="#">place holder</a></li>
+            <li><a href="#">place holder</a></li>
+            <li><a href="#">place holder</a></li> 
+          </ul>
+        </div> -->
+
+        <small class='scroll hidden-xs'>Scroll ▼</small>
+
+
       </section>
-      <section id='image1' style='text-align:center;'>
-        <img id='img1' src='img/bgImage_518.jpg' alt='img' title='img' style='max-width:100%; height:auto; max-height:100%; visibility:hidden;'>
-        
+
+      <section id='liporada'>
+        <div class="quickNav" data-toggle="tooltip" data-placement="right" title="Quick Navigation"></div>
+        <h2>Burauen, Leyte</h2>
+        <p>Mother of two Maria Redubla Liporada loves to make cakes, but it was only when she received about USD130 in livelihood support from Red Cross that she was able to realise her dream to set up a small bakery.</p> 
+        <p>Maria and her family live in a remote upland community in Leyte called Anonang, which was hard hit by Typhoon Haiyan.</p>
+        <p>The family was evacuated to higher ground before the typhoon to escape flooding from a nearby river.  When they returned, they found their house and belongings gone and most of their crops destroyed. They had very little left to eat.</p>
+        <p>That time was tough for them all, Maria says.</p> 
+        <p>‘During that time I felt a mixture of emotions. We had lost everything, but at the same time we were thankful to survive.’</p>
+        <p>Not long after that Maria’s family and some other survivors left for Manila to seek a new life. By chance they saw an interview with the Philippine Red Cross chairman, Richard Gordon. He explained what the Red Cross was doing to distribute relief goods to people in need. That gave Maria and her family renewed hope, and they decided to return home. Once recovery work started, they were able to qualify for Red Cross livelihood support.</p>
+        <p>These days, Maria gets up at 3 every morning to make her kakanin (cakes) and sells enough to make about USD10 a day. All the family savings go straight into the bank and will be used to rebuild their home and pay school fees.</p>
+        <p>‘I want to thank Red Cross for giving me the opportunity to start a new life and a new business,’ she says.</p>
+        <p>‘My message to other women is: don’t just sit at home – help your husband and together you will prosper.’</p>
       </section>
-      <section id='guiuan'>
-        <h2>Guiuan, Eastern Samar</h2>
-        <p>Keffiyeh Thundercats narwhal, tousled VHS PBR&B fashion axe irony keytar gluten-free quinoa banh mi flexitarian fixie. American Apparel messenger bag raw denim cardigan. Semiotics vinyl Truffaut, tofu bitters squid +1 ennui banh mi literally tote bag mixtape. Freegan gentrify Echo Park, post-ironic blog yr aesthetic meggings VHS brunch. Flannel direct trade try-hard pork belly. Bicycle rights 90's American Apparel, crucifix hoodie slow-carb letterpress. Banksy shabby chic actually Carles, squid post-ironic chia trust fund crucifix forage Pitchfork Shoreditch gluten-free High Life.</p>
+
+      <section id='barroa'>
+        <div class="quickNav" data-toggle="tooltip" data-placement="right" title="Quick Navigation"></div>
+        <h2>Panay, Capiz</h2>
+        <p>Restituto B. Barroa is a 69 year-old resident of Ilawod Daga, Panay, Capiz and a tentant farmer. He is married to Elisa, and owns less than 1 hectare of cultivated land. Restituto has a famous reputation as an industrious man in his village, or barangay.</p>
+        <p>When Typhoon Haiyan struck one year ago, it left Restituto’s farm in a dire condition. Although he could fix his house using salvaged materials, his source of family income - rice farming - was unsalvageable. And given his age, Restituto had no other source of income.</p>
+        <p>The Philippine Red Cross selected the Barroa family to take part in their Livelihood Recovery Program, based on a nomination from the community. With the support he received from the Red Cross, Restituto is farming rice and the local bitter squash, “ampalaya.” He also purchased a pig. WIth a second payment, he bought 40 ducklings and another piglet.</p>
+        <p>Now Restituto’s animals are growing, he sell his vegetables in their barangay and he already harvested 100 sacks of rice. From the income he generated, Restituto bought three more piglets and a few ducks.</p>
+        <p>“Gapasalamat guid ko sa dako nga bulig nga ginhatag sang Philippine Red Cross kag gamiton ko ini sa insakto,” says Restituto, which roughly translates as “I am very thankful for what the Philippine Red Cross has given me. I promise I will use it properly.”</p>
       </section>
-      <section id='tacloban'>
-        <h2>Tacloban City, Leyte</h2>
-        <p>Truffaut pickled Blue Bottle, Helvetica PBR semiotics distillery typewriter pug tattooed hella kogi Portland sriracha artisan. Freegan synth Godard keytar post-ironic typewriter squid. Actually tote bag church-key, DIY roof party quinoa selfies butcher chia banh mi Odd Future forage hoodie occupy American Apparel. Master cleanse typewriter cardigan, 90's semiotics blog PBR. Sriracha locavore narwhal try-hard put a bird on it slow-carb quinoa. Blog pop-up street art hashtag, Carles VHS raw denim fap kale chips pug hoodie Thundercats retro pork belly chambray. Bitters fixie Intelligentsia, direct trade flexitarian blog viral mustache PBR&B ethical Williamsburg crucifix before they sold out.</p>
+
+      <section id='rogan'>
+        <div class="quickNav" data-toggle="tooltip" data-placement="right" title="Quick Navigation"></div>
+        <h2>Libacao, Aklan</h2>
+        <p>Tenant farmer Estifana Rogan, 72, works hard hoeing the fertile soil in her family’s fruit and vegetable plantation.</p>
+        <p>Estifana lives with her husband, Bermijo, and one adult son, who has Down’s syndrome.</p>
+        <p>Pineapples, bananas, eggplants, sweet potatoes and green peppers flourish in this secluded valley in the inland barangay (village) of Ogsip, Libacao, on Panay Island.</p>
+        <p>It’s hard to believe that a year ago typhoon Haiyan wiped out nearly everything the Rogans had. The roof of their house was blown off, a wall collapsed and all their poultry was killed.</p> 
+        <p>Luckily, everyone in the Rogan household survived the horrific storm.</p>
+        <p>Estifana says she used to worry how the family would survive without a source of food or income, apart from the emergency relief aid they received from Red Cross.</p>
+        <p>Because of their difficult circumstances the family was selected by the local community’s barangay recovery committee for the Red Cross and Red Crescent Movement’s conditional cash for livelihoods programme, which offers up to 10,000 pesos (USD220) per household.</p>
+        <p>‘With the 10,000 pesos we bought seedlings and fertilizers and we started to replant,’ Estifana says.</p>
+        <p>It took the elderly couple 10 days to plant their crops and almost a month before the first fruit appeared. Now they hope to get back on their feet.</p>
+        <p>‘We will save money and store food so that our house is already prepared for the next typhoon,’ Estifana says with a smile.</p>
       </section>
-      <section id='bantayan'>
-        <h2>Bantayan, Cebu</h2>
-        <p>Street art selfies DIY butcher. Roof party pop-up kogi photo booth, you probably haven't heard of them Pitchfork synth bitters meh drinking vinegar fap disrupt small batch Carles post-ironic. Readymade iPhone next level, meh Bushwick synth drinking vinegar freegan. Meh before they sold out normcore small batch, single-origin coffee flexitarian Cosby sweater ethnic quinoa pour-over drinking vinegar. Synth scenester authentic, kitsch put a bird on it stumptown lo-fi. Cosby sweater PBR cornhole leggings trust fund, Blue Bottle pickled swag cray YOLO fanny pack hashtag. Try-hard ennui meggings, leggings pop-up occupy salvia selfies mixtape seitan selvage church-key Marfa small batch.</p>
+
+      <section id='calinao'>
+        <div class="quickNav" data-toggle="tooltip" data-placement="right" title="Quick Navigation"></div>
+        <h2>location, unknown</h2>
+        <p>50 year-old Francisco Calinao is one of many survivors of Typhoon Haiyan, whose primary source of income was lost as a result of the disaster. With his 80 year-old mother and 19 year-old daughter to care for, Francisco began selling produce from his backyard to the nearby market so the family could meet their daily needs, including expenses for his daughter's schooling.</p>
+        <p>Things changed for the better when Francisco was selected to be part of the Philippine Red Cross' Household Livelihood Assistance programme. As a landless laborer with a very small garden, when he received the 1st installment (Php. 6,000), Francisco began planting variety of vegetables. He also purchased fingerling Tilapia for his small pond, in order to maximize productivity and supplement his garden’s income. </p> 
+        <p>While it is too early to assess the success of his investment to date, Francisco is grateful to the Philippine Red Cross for the assistance. It has given his entire family a solid opportunity to be more financially secure than before.</p>
+        <p>“Gapasalamat ako sa ginbulig sang Philippine Red Cross tungod kay nakaumpisa ako liwat sa pangabuhi na mas maayo pa," says Francisco.</p>
       </section>
-      <section id='balasan'>
-        <h2>Balasan, Iloilo</h2>
-        <p>Vice Helvetica salvia 8-bit Thundercats kogi post-ironic. Raw denim butcher Intelligentsia, narwhal Brooklyn small batch artisan scenester Tumblr normcore deep v. Gentrify dreamcatcher Carles, wayfarers banjo mlkshk before they sold out viral cardigan retro drinking vinegar Helvetica four loko lomo flannel. Mustache kale chips craft beer, synth stumptown raw denim paleo pop-up Portland fixie wolf next level. Single-origin coffee gluten-free Brooklyn tofu, salvia sustainable whatever Tonx vinyl. Pour-over Shoreditch selvage semiotics. Direct trade asymmetrical Portland sartorial VHS cray.</p>
-      </section>
-      <section id='calamian'>
-        <h2>Calamian Islands, Palawan</h2>
-        <p>Kogi messenger bag bespoke shabby chic. YOLO mlkshk +1, quinoa try-hard semiotics actually slow-carb mustache food truck Thundercats distillery leggings whatever. Blog pork belly mixtape pug plaid, scenester crucifix Blue Bottle food truck. Photo booth Tumblr pickled, narwhal you probably haven't heard of them Bushwick mlkshk Cosby sweater occupy keytar master cleanse ugh selvage. Kale chips chia hoodie Pitchfork synth tote bag street art, readymade next level master cleanse put a bird on it actually direct trade kogi. Fanny pack deep v meh, gluten-free Pitchfork street art gentrify. Tonx wayfarers distillery, Thundercats hella semiotics Pitchfork flannel leggings vinyl four loko organic drinking vinegar disrupt Bushwick.</p>
-      </section>
+      
       <section id='manila'>
+        <div class="quickNav" data-toggle="tooltip" data-placement="right" title="Quick Navigation"></div>
         <h2>Philippine Red Cross</h2>
         <p>Rights 90's American Apparel, crucifix hoodie slow-carb letterpress. Banksy shabby chic actually Carles, squid post-ironic chia trust fund crucifix forage Pitchfork Shoreditch gluten-free High Life.</p>
         <small class='colophon'>
@@ -247,11 +173,23 @@
       
     </article>
 
-    
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
+   
+
+    <!-- <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script> -->
+    <script src="js/jquery.min.js"></script>
+
+    <!-- <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.2.0/js/bootstrap.min.js"></script> -->
+    <script src="js/bootstrap.min.js"></script>
+
     <!-- <script src="http://cdn.leafletjs.com/leaflet-0.7.3/leaflet.js"></script> -->
     <script src="js/leaflet.js"></script>
-    <script src='js/underscore-min.js'></script>
+    <script src="js/underscore-min.js"></script>
+
+
+    <script> 
+
+    </script>
+
 
     <!--[if lt IE 9]>
     <script>
@@ -261,20 +199,35 @@
 
     <script>
 
-      var height = $(window).height() * 0.80 - 80;
-      var windowWidth = $(window).width();
-      $('#image1').css('max-height', height);
-      $('#image1').width(windowWidth * 0.90 - 120);
-      $('#img1').css('max-height', height - 40);
 
-      // on window resize
-      $(window).resize(function(){    
-        var height = $(window).height() * 0.80 - 80;
-        var windowWidth = $(window).width();
-        $('#image1').css('max-height', height);
-        $('#image1').width(windowWidth * 0.90 - 120);
-        $('#img1').css('max-height', height - 40);
-      })
+
+ 
+
+
+var width = $(window).width(); 
+if(width >= 768){
+
+      $(".quickNav").html('<div class="btn-group">'+
+          '<button type="button" class="btn btn-xs dropdown-toggle btn-quickNav" data-toggle="dropdown">'+ 
+            '<span style="font-size:18px; color:#f5f5f5;"> ☰ </span></button>'+
+            '<ul class="dropdown-menu" role="menu">'+
+              '<li class="active"><a href="#">Home</a></li>'+
+              '<li><a href="#about">Key Theme</a></li>'+
+             '<li><a href="#contact">Operation Summary</a></li>'+
+              '<li class="divider"></li>'+
+              '<li class="header">Livelihood Beneficiary Profiles</li>'+
+              '<li><a href="#liporada">Maria Redubla Liporada</a></li>'+
+              '<li><a href="#barroa">Restituto B. Barroa</a></li>'+
+              '<li><a href="#rogan">Estifana Rogan</a></li>'+
+              '<li><a href="#calinao">Francisco Calinao</a></li>'+    
+              '<li class="header">Shelter Beneficiary Profiles</li>'+
+              '<li><a href="#">place holder</a></li>'+
+              '<li><a href="#">place holder</a></li>'+
+              '<li><a href="#">place holder</a></li></ul></div>');
+      $(".quickNav").tooltip(); 
+
+
+      $('body').css("padding-top","0px");
 
 
       // geojson points for each story piece
@@ -282,68 +235,72 @@
         {
           "type": "Feature",
           "properties": {
-            "id": "guiuan"
+            "id": "liporada",
+            "place_name": "Anonang, Burauen, Leyte"
           },
           "geometry": {
             "type": "Point",
             "coordinates": [
-            125.73165893554686,
-            11.041625160268966
+            124.8833,
+            10.9833
             ]
           }
         },
         {
           "type": "Feature",
           "properties": {
-            "id": "tacloban"
+            "id": "rogan",
+            "place_name": "Ogsip, Libacao, Aklan"
           },
           "geometry": {
             "type": "Point",
             "coordinates": [
-            125.01342773437499,
-            11.192547520721186
+            122.3032906,
+            11.4812281
             ]
           }
         },
         {
           "type": "Feature",
           "properties": {
-            "id": "bantayan"
+            "id": "barroa",
+            "place_name": "Ilawod Daga, Panay, Capiz"
           },
           "geometry": {
             "type": "Point",
             "coordinates": [
-            123.74794006347655,
-            11.202651131282447
+            122.77608,
+            11.49622
             ]
           }
         },
         {
           "type": "Feature",
           "properties": {
-            "id": "calamian"
+            "id": "calinao",
+            "place_name": "unknown"
           },
           "geometry": {
             "type": "Point",
             "coordinates": [
-            120.08880615234376,
-            12.044692844011129
+            122.6261,
+            11.9770
             ]
           }
         },
-        {
-          "type": "Feature",
-          "properties": {
-            "id": "balasan"
-          },
-          "geometry": {
-            "type": "Point",
-            "coordinates": [
-            123.09906005859375,
-            11.454452964438408
-            ]
-          }
-        },
+        // {
+        //   "type": "Feature",
+        //   "properties": {
+        //     "id": "balasan"
+        //   },
+        //   "geometry": {
+        //     "type": "Point",
+        //     "coordinates": [
+        //     123.09906005859375,
+        //     11.454452964438408
+        //     ]
+        //   }
+        // },
         {
           "type": "Feature",
           "properties": {
@@ -358,8 +315,8 @@
           }
         }];
       // define tile layer for base map
-      // var tileLayerUrl = 'http://{s}.tile.openstreetmap.fr/hot/{z}/{x}/{y}.png';
-      var tileLayerUrl = 'http://{s}.tiles.mapbox.com/v3/americanredcross.i4d2d077/{z}/{x}/{y}.png';
+      var tileLayerUrl = 'http://{s}.tile.openstreetmap.fr/hot/{z}/{x}/{y}.png';
+      // var tileLayerUrl = 'http://{s}.tiles.mapbox.com/v3/americanredcross.i4d2d077/{z}/{x}/{y}.png';
       var tileLayer = L.tileLayer(tileLayerUrl);
       // setup leaflet map with desired options
       var map = L.map('map', { 
@@ -461,6 +418,8 @@
       function showDisclaimer() {
           window.alert("The maps used do not imply the expression of any opinion on the part of the International Federation of Red Cross and Red Crescent Societies or National Societies concerning the legal status of a territory or of its authorities.");
       }
+
+}
 
     </script>
 
