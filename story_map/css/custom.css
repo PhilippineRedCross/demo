@@ -208,6 +208,8 @@ body.section-0 #map { opacity:0.5; }
 }
 .modalLinkImg {
   border: 1px solid #2f2f2f;
+  margin-left: auto;
+  margin-right: auto;
 }
 .close-imgModal {
   position: absolute;
