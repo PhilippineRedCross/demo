@@ -157,13 +157,25 @@ body.section-0 #map { opacity:0.5; }
   color: #6d6e70;
 }
 
+.logos {
+  width: 100%;
+
+}
+.logos-img{
+  margin: 12px auto;
+}
 
 
 .glyphicon-large {
   font-size: 20px;
   color: #ed1b2e;
 }
-
+.glyphicon-red {
+  color: #ed1b2e;
+}
+.section-indent{
+  margin-left: 16px;
+}
 
 .quickNav {
   position: absolute;
@@ -195,8 +207,11 @@ body.section-0 #map { opacity:0.5; }
   background: #000;
   border-radius: 0px;
 }
+.modal-80 {
+  width: 80%;
+}
 .modal-body-img { 
-   padding: 0px; 
+   padding: 20px; 
 }
 .modal-img {
   margin-left: auto;
@@ -205,6 +220,13 @@ body.section-0 #map { opacity:0.5; }
 .modalLink {
   padding: 12px;
   cursor: pointer;
+}
+.modalLink-half {
+  width: 49%;
+  cursor: pointer;
+  display: inline-block;
+  margin-left: auto;
+  margin-right: auto;
 }
 .modalLinkImg {
   border: 1px solid #2f2f2f;
@@ -221,6 +243,13 @@ body.section-0 #map { opacity:0.5; }
 }
 .close-imgModal:hover{
   color:white;
+}
+
+.img-double-sm {
+  width: 49%;
+  vertical-align: baseline;
+  border: 1px solid #2f2f2f;
+
 }
 
 
