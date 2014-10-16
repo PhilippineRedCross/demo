@@ -13,7 +13,7 @@ section {
     background:#fff;
   }
   article {
-    width:50%;
+    width:60%;
     min-width:320px;
     position:relative;
     padding-top:30px;
@@ -74,7 +74,7 @@ p { margin:0px; }*/
   top:0px;
   bottom:0px;
   right:0px;
-  width:66.6666%;
+  width:40%;
   z-index:20;
 }
 
@@ -82,8 +82,8 @@ p { margin:0px; }*/
   position:absolute;
   top:0px;
   bottom:0px;
-  width:200%;
-  left:-50%;
+  width:250%;
+  left:-150%;
   transition:opacity 250ms;
   -moz-transition:opacity 250ms;
   -webkit-transition:opacity 250ms;
@@ -218,8 +218,11 @@ body.section-0 #map { opacity:0.5; }
   margin-right: auto;
 }
 .modalLink {
-  padding: 12px;
+  padding: 0px 12px 12px 12px;
   cursor: pointer;
+}
+.header-name {
+  margin-top: 0px;
 }
 .modalLink-half {
   width: 49%;
@@ -246,7 +249,7 @@ body.section-0 #map { opacity:0.5; }
 }
 
 .img-double-sm {
-  width: 49%;
+  max-width: 49%;
   vertical-align: baseline;
   border: 1px solid #2f2f2f;
 
