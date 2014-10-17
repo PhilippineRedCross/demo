@@ -549,23 +549,23 @@ if(width >= 768){
             ]
           }
         },
-        {
-          "type": "Feature",
-          "properties": {
-            "id": "livelihoods",
-            "place_name": "PHL",
-            "view_bounds": [
-            xxx
-            ]
-          },
-          "geometry": {
-            "type": "Point",
-            "coordinates": [
-            long,
-            lat
-            ]
-          }
-        },
+        // {
+        //   "type": "Feature",
+        //   "properties": {
+        //     "id": "livelihoods",
+        //     "place_name": "PHL",
+        //     "view_bounds": [
+        //     xxx
+        //     ]
+        //   },
+        //   "geometry": {
+        //     "type": "Point",
+        //     "coordinates": [
+        //     long,
+        //     lat
+        //     ]
+        //   }
+        // },
         {
           "type": "Feature",
           "properties": {
@@ -658,6 +658,7 @@ if(width >= 768){
             "place_name": "unknown",
             "view_bounds": [
             [],[]
+            ]
           },
           "geometry": {
             "type": "Point",
@@ -684,22 +685,22 @@ if(width >= 768){
             ]
           }
         },
-        {
-          "type": "Feature",
-          "properties": {
-            "id": "shelter",
-            "place_name": "",
-            "view_bounds": [
-            [],[]
-            ]
-          },
-          "geometry": {
-            "type": "Point",
-            "coordinates": [
-            xxx
-            ]
-          }
-        },
+        // {
+        //   "type": "Feature",
+        //   "properties": {
+        //     "id": "shelter",
+        //     "place_name": "",
+        //     "view_bounds": [
+        //     [],[]
+        //     ]
+        //   },
+        //   "geometry": {
+        //     "type": "Point",
+        //     "coordinates": [
+        //     xxx
+        //     ]
+        //   }
+        // },
         {
           "type": "Feature",
           "properties": {
@@ -880,23 +881,25 @@ if(width >= 768){
             120.96992,
             14.59130
             ]
-          },
-          {
-            "type": "Feature",
-            "properties": {
-              "id": "movement",
+          }
+        },
+        {
+          "type": "Feature",
+          "properties": {
+            "id": "manila",
             "view_bounds": [
             [],[]
             ]
-            },
-            "geometry": {
-              "type": "Point",
-              "coordinates": [
-              120.96992,
-              14.59130
-              ]
-            }
-        }];
+          },
+          "geometry": {
+            "type": "Point",
+            "coordinates": [
+            120.96992,
+            14.59130
+            ]
+          }
+        }
+        ];
       // define tile layer for base map
       var tileLayerUrl = 'http://{s}.tile.openstreetmap.fr/hot/{z}/{x}/{y}.png';
       // var tileLayerUrl = 'http://{s}.tiles.mapbox.com/v3/americanredcross.hc5olfpa/{z}/{x}/{y}.png';
