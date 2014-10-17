@@ -170,8 +170,17 @@ body.section-0 #map { opacity:0.5; }
   font-size: 20px;
   color: #ed1b2e;
 }
-.glyphicon-red {
+.color-red {
   color: #ed1b2e;
+}
+.color-blue {
+  color: #0091CD;
+}
+.color-green {
+  color: #537B35;
+}
+.color-khaki {
+  color: #E2D7AC;
 }
 .section-indent{
   margin-left: 16px;
@@ -230,6 +239,7 @@ body.section-0 #map { opacity:0.5; }
   display: inline-block;
   margin-left: auto;
   margin-right: auto;
+  margin-bottom: 12px;
 }
 .modalLinkImg {
   border: 1px solid #2f2f2f;
