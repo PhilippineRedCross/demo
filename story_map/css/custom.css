@@ -18,7 +18,7 @@ section {
     min-width:320px;
     position:relative;
     padding-top:30px;
-    padding-bottom:33.3333%;
+    padding-bottom:50%;
     z-index:21;
   }
   section {
@@ -94,21 +94,53 @@ p { margin:0px; }*/
   width:120px !important;
   height:120px !important;
   margin:-60px 0px 0px -60px;
-  background:url(../sprite-demo.png) 120px 120px no-repeat;
+  /*background:url(../sprite-demo.png) 120px 120px no-repeat;*/
   position:absolute;
 }
 
 .spot-cover { display:none; }
-.spot-liporada { background-position:-650px 0px; }
-.spot-liporada.active { background-position:-650px -120px; }
-.spot-barroa { background-position:-650px 0px; }
-.spot-barroa.active { background-position:-650px -120px; }
-.spot-rogan { background-position:-650px 0px; }
-.spot-rogan.active { background-position:-650px -120px; }
-.spot-calinao { background-position:-650px 0px; }
-.spot-calinao.active { background-position:-650px -120px; }
-.spot-manila { background-position:-1040px 0px; }
-.spot-manila.active { background-position:-1040px -120px; }
+.spot-livelihoods { display:none; }
+.spot-liporada { display:none; }
+.spot-liporada.active { background:url(../img/marker-temp.png); }
+.spot-martinez { display:none; }
+.spot-martinez.active { background:url(../img/marker-temp.png); }
+.spot-cabujoc { display:none; }
+.spot-cabujoc.active { background:url(../img/marker-temp.png); }
+.spot-barroa { display:none; }
+.spot-barroa.active { background:url(../img/marker-temp.png); }
+.spot-rogan { display:none; }
+.spot-rogan.active { background:url(../img/marker-temp.png); }
+.spot-calinao { display:none; }
+.spot-calinao.active { background:url(../img/marker-temp.png); }
+.spot-coconutlady { display:none; }
+.spot-coconutlady.active { background:url(../img/marker-temp.png); }
+.spot-shelter { display:none; }
+.spot-beron { display:none; }
+.spot-beron.active { background:url(../img/marker-temp.png); }
+.spot-jubos { display:none; }
+.spot-jubos.active { background:url(../img/marker-temp.png); }
+.spot-neri { display:none; }
+.spot-neri.active { background:url(../img/marker-temp.png); }
+.spot-remorta { display:none; }
+.spot-remorta.active { background:url(../img/marker-temp.png); }
+.spot-sheltergallery1 { display:none; }
+.spot-sheltergallery1.active { background:url(../img/marker-temp.png); }
+.spot-sheltergallery2 { display:none; }
+.spot-sheltergallery2.active { background:url(../img/marker-temp.png); }
+.spot-films { display:none; }
+.spot-roasa { display:none; }
+.spot-roasa.active { background:url(../img/marker-temp.png); }
+.spot-pidolopez { display:none; }
+.spot-pidolopez.active { background:url(../img/marker-temp.png); }
+.spot-amparo { display:none; } 
+.spot-amparo.active { background:url(../img/marker-temp.png); }
+.spot-manila { display:none; }
+.spot-manila.active { background:url(../img/marker-prc.png); }
+.spot-movement { display:none; }
+
+.spot.active { display: block; } 
+
+
 
 /*.spot-cover { display:none; }
 .spot-baker { background-position:-130px 0px; }
@@ -163,7 +195,9 @@ body.section-0 #map { opacity:0.5; }
 
 }
 .logos-img{
-  margin: 12px auto;
+  margin: 0px auto 16px auto;
+  border-radius: 5px;
+  background: #ffffff;
 }
 
 
