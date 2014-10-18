@@ -32,8 +32,8 @@ if(width >= 768){
               '<li><a href="#livelihoods"><span class="glyphicon glyphicon-user color-blue"></span>&nbsp; Livelihoods Profiles</a></li>'+
               '<li><a href="#coconutlady"><span class="glyphicon glyphicon-picture color-green"></span>&nbsp; The Coconut Lady</a></li>'+
               '<li><a href="#shelter"><span class="glyphicon glyphicon-user color-blue"></span>&nbsp; Shelter Profiles</a></li>'+
-              '<li><a href="#sheltergallery1"><a href="#coconutlady"><span class="glyphicon glyphicon-picture color-green"></span>&nbsp; Shelter Gallery 1</a></li>'+
-              '<li><a href="#sheltergallery2"><a href="#coconutlady"><span class="glyphicon glyphicon-picture color-green"></span>&nbsp; Shelter Gallery 2</a></li>'+
+              '<li><a href="#sheltergallery1"><span class="glyphicon glyphicon-picture color-green"></span>&nbsp; Building Back</a></li>'+
+              '<li><a href="#sheltergallery2"><span class="glyphicon glyphicon-picture color-green"></span>&nbsp; The Building Process</a></li>'+
               // '<li class="divider"></li>'+
               // '<li class="header">Livelihood Beneficiary Profiles</li>'+
               // '<li><a href="#liporada">Maria Redubla Liporada</a></li>'+
