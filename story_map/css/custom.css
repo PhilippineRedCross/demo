@@ -1,16 +1,36 @@
 body {
   padding: 0px;
+  background: #222;
 }
 section {
-  padding: 50px 10px 0px 10px;
+  padding: 60px 10px 0px 10px;
   min-height: 360px;
 }
+
+.navbar-header {
+  background: #222;
+}
+
+section,
+section a {
+  color:#eee;
+  text-decoration:none;
+}
+
+section {
+  background:rgba(34,34,34,0.2);
+}
+section {
+  background:#222;
+  color:#eee;
+}
+section small { color:#aaa; }
+
 
 @media (min-width:768px) {
   body {
     margin:0px;
     padding-top:70px;
-    /*font:normal 15px/20px Arial,sans-serif;*/
     background:#fff;
   }
   article {
@@ -45,10 +65,6 @@ section {
   }
   section.active a { color:#eee; }
   section.active small { color:#aaa; }
-/*h1 { font-size:2em; line-height:1em; }
-h2 { font-size:1.3333em; }
-h1,h2 { margin:0px 0px 10px; }
-p { margin:0px; }*/
 
 .scroll {
   position:absolute;
@@ -61,14 +77,6 @@ p { margin:0px; }*/
   display:block;
   margin-top:10px;
 }
-
-/*.cover:before {
-  content:'';
-  display:block;
-  width:120px; height:120px;
-  margin:0px auto 20px;
-}
-.cover.active:before { background:url(../sprite-demo.png) 0px -120px no-repeat; }*/
 
 #pane {
   position:fixed;
@@ -94,11 +102,32 @@ p { margin:0px; }*/
   width:120px !important;
   height:120px !important;
   margin:-60px 0px 0px -60px;
-  /*background:url(../sprite-demo.png) 120px 120px no-repeat;*/
   position:absolute;
 }
 
 .spot-cover { display:none; }
+.spot-icrc-emergency-guiuan { display:none; }
+.spot-icrc-emergency-guiuan.active { background:url(../img/marker-temp.png); }
+.spot-icrc-emergency-homohon { display:none; }
+.spot-icrc-emergency-homohon.active { background:url(../img/marker-temp.png); }
+.spot-icrc-emergency-basey { display:none; }
+.spot-icrc-emergency-basey.active { background:url(../img/marker-temp.png); }
+.spot-icrc-emergency-balangiga { display:none; }
+.spot-icrc-emergency-balangiga.active { background:url(../img/marker-temp.png); }
+.spot-icrc-emergency-abuyog { display:none; }
+.spot-icrc-emergency-abuyog.active { background:url(../img/marker-temp.png); }
+.spot-icrc-recovery-guiuan { display:none; }
+.spot-icrc-recovery-guiuan.active { background:url(../img/marker-temp.png); }
+.spot-icrc-recovery-salcedo { display:none; }
+.spot-icrc-recovery-salcedo.active { background:url(../img/marker-temp.png); }
+.spot-icrc-recovery-homohon { display:none; }
+.spot-icrc-recovery-homohon.active { background:url(../img/marker-temp.png); }
+.spot-icrc-recovery-random { display:none; }
+.spot-icrc-recovery-random.active { background:url(../img/marker-temp.png); }
+.spot-icrc-recovery-marabut { display:none; }
+.spot-icrc-recovery-marabut.active { background:url(../img/marker-temp.png); }
+.spot-icrc-recovery-basey { display:none; }
+.spot-icrc-recovery-basey.active { background:url(../img/marker-temp.png); }
 .spot-livelihoods { display:none; }
 .spot-liporada { display:none; }
 .spot-liporada.active { background:url(../img/marker-temp.png); }
@@ -106,63 +135,19 @@ p { margin:0px; }*/
 .spot-martinez.active { background:url(../img/marker-temp.png); }
 .spot-cabujoc { display:none; }
 .spot-cabujoc.active { background:url(../img/marker-temp.png); }
-.spot-barroa { display:none; }
-.spot-barroa.active { background:url(../img/marker-temp.png); }
-.spot-rogan { display:none; }
-.spot-rogan.active { background:url(../img/marker-temp.png); }
-.spot-calinao { display:none; }
-.spot-calinao.active { background:url(../img/marker-temp.png); }
 .spot-coconutlady { display:none; }
 .spot-coconutlady.active { background:url(../img/marker-temp.png); }
 .spot-shelter { display:none; }
-.spot-beron { display:none; }
-.spot-beron.active { background:url(../img/marker-temp.png); }
-.spot-jubos { display:none; }
-.spot-jubos.active { background:url(../img/marker-temp.png); }
-.spot-neri { display:none; }
-.spot-neri.active { background:url(../img/marker-temp.png); }
-.spot-remorta { display:none; }
-.spot-remorta.active { background:url(../img/marker-temp.png); }
 .spot-sheltergallery1 { display:none; }
 .spot-sheltergallery1.active { background:url(../img/marker-temp.png); }
-.spot-sheltergallery2 { display:none; }
-.spot-sheltergallery2.active { background:url(../img/marker-temp.png); }
 .spot-films { display:none; }
-.spot-roasa { display:none; }
-.spot-roasa.active { background:url(../img/marker-temp.png); }
-.spot-pidolopez { display:none; }
-.spot-pidolopez.active { background:url(../img/marker-temp.png); }
-.spot-amparo { display:none; } 
-.spot-amparo.active { background:url(../img/marker-temp.png); }
 .spot-manila { display:none; }
 .spot-manila.active { background:url(../img/marker-prc.png); }
 .spot-movement { display:none; }
-
 .spot.active { display: block; } 
-
-
-
-/*.spot-cover { display:none; }
-.spot-baker { background-position:-130px 0px; }
-.spot-baker.active { background-position:-130px -120px; }
-.spot-aldgate { background-position:-260px 0px; }
-.spot-aldgate.active { background-position:-260px -120px; }
-.spot-london-bridge { background-position:-390px 0px; }
-.spot-london-bridge.active { background-position:-390px -120px; }
-.spot-woolwich { background-position:-520px 0px; }
-.spot-woolwich.active { background-position:-520px -120px; }
-.spot-gloucester { background-position:-650px 0px; }
-.spot-gloucester.active { background-position:-650px -120px; }
-.spot-caulfield-gardens { background-position:-780px 0px; }
-.spot-caulfield-gardens.active { background-position:-780px -120px; }
-.spot-telegraph { background-position:-910px 0px; }
-.spot-telegraph.active { background-position:-910px -120px; }
-.spot-charing-cross { background-position:-1040px 0px; }
-.spot-charing-cross.active { background-position:-1040px -120px; }*/
 
 /* Distinguish the "cover page" visually other sections. */
 body.section-0 #map { opacity:0.5; }
-
 }
 
 @media (min-width:1280px) {
@@ -299,5 +284,3 @@ body.section-0 #map { opacity:0.5; }
 /*  border: 1px solid #2f2f2f;*/
 
 }
-
-

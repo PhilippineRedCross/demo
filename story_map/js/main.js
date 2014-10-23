@@ -1,20 +1,26 @@
 var windowHeight = $(window).height();
-
-$(window).resize(function(){     
-    windowHeight = $(window).height();
-})
-
-
-
+var width = $(window).width(); 
+var map = false;
 
 $(document).delegate('*[data-toggle="lightbox"]', 'click', function(event) {
     event.preventDefault();
     $(this).ekkoLightbox();
 }); 
 
- 
-var width = $(window).width(); 
+$(window).resize(function(){     
+    windowHeight = $(window).height();
+    var newWidth = $(window).width();
+    if(newWidth >= 768 && map === false){
+      fullSetup();
+    }
+});
+
+
+function fullSetup(){
+
+width = $(window).width(); 
 if(width >= 768){
+      map = true;
 
       function callImageModal (item) {
         var imgUrl = $(item).find('img').attr("src").slice(0,-9) + 'large.jpg';
@@ -29,27 +35,19 @@ if(width >= 768){
             '<span style="font-size:18px; color:#f5f5f5;"> ☰ </span></button>'+
             '<ul class="dropdown-menu" role="menu">'+
               '<li><a href="#">Home</a></li>'+
-              '<li><a href="#livelihoods"><span class="glyphicon glyphicon-user color-blue"></span>&nbsp; Livelihoods Profiles</a></li>'+
+              '<li><a href="#icrc-emergency-guiuan"><span class="glyphicon glyphicon-picture color-green"></span>&nbsp; Emergency Phase</a></li>'+
+              '<li><a href="#icrc-recovery-guiuan"><span class="glyphicon glyphicon-picture color-green"></span>&nbsp; Recovery Phase</a></li>'+
+              '<li><a href="#livelihoods">Livelihood Profiles</a></li>'+
+              '<li><a href="#liporada"><span class="glyphicon glyphicon-user color-blue"></span>&nbsp; Maria Liporada</a></li>'+
+              '<li><a href="#martinez"><span class="glyphicon glyphicon-user color-blue"></span>&nbsp; Gaspar Martinez</a></li>'+
+              '<li><a href="#cabujoc"><span class="glyphicon glyphicon-user color-blue"></span>&nbsp; Joel Cabujoc</a></li>'+
               '<li><a href="#coconutlady"><span class="glyphicon glyphicon-picture color-green"></span>&nbsp; The Coconut Lady</a></li>'+
-              '<li><a href="#shelter"><span class="glyphicon glyphicon-user color-blue"></span>&nbsp; Shelter Profiles</a></li>'+
-              '<li><a href="#sheltergallery1"><span class="glyphicon glyphicon-picture color-green"></span>&nbsp; Building Back</a></li>'+
-              '<li><a href="#sheltergallery2"><span class="glyphicon glyphicon-picture color-green"></span>&nbsp; The Building Process</a></li>'+
-              // '<li class="divider"></li>'+
-              // '<li class="header">Livelihood Beneficiary Profiles</li>'+
-              // '<li><a href="#liporada">Maria Redubla Liporada</a></li>'+
-              // '<li><a href="#barroa">Restituto B. Barroa</a></li>'+
-              // '<li><a href="#rogan">Estifana Rogan</a></li>'+
-              // '<li><a href="#calinao">Francisco Calinao</a></li>'+    
-              // '<li class="header">Shelter Beneficiary Profiles</li>'+
-              // '<li><a href="#beron">Manuel Beron</a></li>'+
-              // '<li><a href="#jubos">Misalina Cabalquinto Jubos</a></li>'+
-              // '<li><a href="#neri">Neri</a></li>'+
+              '<li><a href="#shelter"><span class="glyphicon glyphicon-picture color-green"></span>&nbsp; Shelter: Building Back</a></li>'+
               '<li><a href="#films"><span class="glyphicon glyphicon-film color-khaki"></span>&nbsp; Films</a></li>'+
-              '<li><a href="#roasa"><span class="glyphicon glyphicon-user color-blue"></span>&nbsp; Reflections</a></li>'+
               '<li><a href="#manila"><span class="glyphicon glyphicon-info-sign color-red"></span>&nbsp; Philippine Red Cross</a></li>'+
               '<li><a href="#movement"><span class="glyphicon glyphicon-info-sign color-red"></span>&nbsp; International Red Cross and Red Crescent Movement</a></li></ul></div>');
       $(".quickNav").tooltip(); 
-
+ 
 
       $('body').css("padding-top","0px");
 
@@ -71,6 +69,192 @@ if(width >= 768){
             "coordinates": [
             124.8833,
             10.9833
+            ]
+          }
+        },
+        {
+          "type": "Feature",
+          "properties": {
+            "id": "icrc-emergency-guiuan",
+            "place_name": "guiuan",
+            "view_bounds": [
+              [10.8036305527031, 125.52978515625], [11.3393989373074, 125.926666259765]  
+            ]
+          },
+          "geometry": {
+            "type": "Point",
+            "coordinates": [
+            125.73131561279297,
+            11.036233634507
+            ]
+          }
+        },
+        {
+          "type": "Feature",
+          "properties": {
+            "id": "icrc-emergency-homohon",
+            "place_name": "homohon island",
+            "view_bounds": [
+              [10.528319677756, 125.510559082031], [11.0640880623603, 125.907440185546]
+            ]
+          },
+          "geometry": {
+            "type": "Point",
+            "coordinates": [
+            125.72032928466795,
+            10.73786205512162
+            ]
+          }
+        },
+        {
+          "type": "Feature",
+          "properties": {
+            "id": "icrc-emergency-basey",
+            "place_name": "basey",
+            "view_bounds": [
+              [11.0679074298266, 124.881591796875], [11.6036758144309, 125.27847290039]
+            ]
+          },
+          "geometry": {
+            "type": "Point",
+            "coordinates": [
+            125.06372451782227,
+            11.28599242692106
+            ]
+          }
+        },
+        {
+          "type": "Feature",
+          "properties": {
+            "id": "icrc-emergency-balangiga",
+            "place_name": "balangiga",
+            "view_bounds": [
+              [10.9142240069443, 125.194702148437], [11.4499923915486, 125.591583251952]
+            ]
+          },
+          "geometry": {
+            "type": "Point",
+            "coordinates": [
+            125.38713455200195,
+            11.11023208709613
+            ]
+          }
+        },{
+          "type": "Feature",
+          "properties": {
+            "id": "icrc-emergency-abuyog",
+            "place_name": "abuyog",
+            "view_bounds": [
+              [10.5688221516269, 124.854125976562], [11.1045905362312, 125.251007080077]
+            ]
+          },
+          "geometry": {
+            "type": "Point",
+            "coordinates": [
+            125.00990867614746,
+            10.744945505898663
+            ]
+          }
+        },
+        {
+          "type": "Feature",
+          "properties": {
+            "id": "icrc-recovery-guiuan",
+            "place_name": "guiuan",
+            "view_bounds": [
+              [10.8036305527031, 125.52978515625], [11.3393989373074, 125.926666259765]  
+            ]
+          },
+          "geometry": {
+            "type": "Point",
+            "coordinates": [
+            125.73131561279297,
+            11.036233634507
+            ]
+          }
+        },
+        {
+          "type": "Feature",
+          "properties": {
+            "id": "icrc-recovery-salcedo",
+            "place_name": "salcedo",
+            "view_bounds": [
+              [10.9142240069443, 125.472106933593], [11.4499923915486, 125.868988037108]  
+            ]
+          },
+          "geometry": {
+            "type": "Point",
+            "coordinates": [
+            125.66024780273438,
+            11.155497934661474
+            ]
+          }
+        },
+        {
+          "type": "Feature",
+          "properties": {
+            "id": "icrc-recovery-homohon",
+            "place_name": "homohon island",
+            "view_bounds": [
+              [10.528319677756, 125.510559082031], [11.0640880623603, 125.907440185546]
+            ]
+          },
+          "geometry": {
+            "type": "Point",
+            "coordinates": [
+            125.72032928466795,
+            10.73786205512162
+            ]
+          }
+        },
+        {
+          "type": "Feature",
+          "properties": {
+            "id": "icrc-recovery-random",
+            "place_name": "marabut",
+            "view_bounds": [
+              [11.1504453519578, 125.521545410156], [11.6862137365621, 125.918426513671]  
+            ]
+          },
+          "geometry": {
+            "type": "Point",
+            "coordinates": [
+            125.52154541015625,
+            11.150445351957863
+            ]
+          }
+        },
+        {
+          "type": "Feature",
+          "properties": {
+            "id": "icrc-recovery-marabut",
+            "place_name": "marabut",
+            "view_bounds": [
+              [10.9088301557221, 125.018920898437], [11.4445985403264, 125.415802001952]  
+            ]
+          },
+          "geometry": {
+            "type": "Point",
+            "coordinates": [
+            125.21598815917967,
+            11.117769865203444
+            ]
+          }
+        },
+        {
+          "type": "Feature",
+          "properties": {
+            "id": "icrc-recovery-basey",
+            "place_name": "basey",
+            "view_bounds": [
+              [11.0679074298266, 124.881591796875], [11.6036758144309, 125.27847290039]
+            ]
+          },
+          "geometry": {
+            "type": "Point",
+            "coordinates": [
+            125.06372451782227,
+            11.28599242692106
             ]
           }
         },
@@ -146,57 +330,6 @@ if(width >= 768){
         {
           "type": "Feature",
           "properties": {
-            "id": "barroa",
-            "place_name": "Ilawod Daga, Panay, Capiz",
-            "view_bounds": [
-            [11.3077077077654, 122.596435546874], [11.8434760923697, 122.993316650389] 
-            ]
-          },
-          "geometry": {
-            "type": "Point",
-            "coordinates": [
-            122.77608,
-            11.49622
-            ]
-          }
-        },
-        {
-          "type": "Feature",
-          "properties": {
-            "id": "rogan",
-            "place_name": "Ogsip, Libacao, Aklan",
-            "view_bounds": [
-            [11.3561823923755, 122.173461914062], [11.8919507769798, 122.570343017577] 
-            ]
-          },
-          "geometry": {
-            "type": "Point",
-            "coordinates": [
-            122.3032906,
-            11.4812281
-            ]
-          }
-        },
-        {
-          "type": "Feature",
-          "properties": {
-            "id": "calinao",
-            "place_name": "Bago Chiquito, Panay, Capiz",
-            "view_bounds": [
-            [11.3050144289314, 122.618408203125], [11.8407828135357, 123.01528930664]
-            ]
-          },
-          "geometry": {
-            "type": "Point",
-            "coordinates": [
-            122.7941653,
-            11.5576111
-            ]
-          }
-        },
-        {
-          "type": "Feature",
-          "properties": {
             "id": "coconutlady",
             "place_name": "Candahug, Palo, Leyte",
             "view_bounds": [
@@ -231,74 +364,6 @@ if(width >= 768){
         {
           "type": "Feature",
           "properties": {
-            "id": "beron",
-            "place_name":"Biasong, San Isidro, Leyte",
-            "view_bounds": [
-            [11.1406767764011, 124.163360595703], [11.6764451610054, 124.560241699218]
-            ]
-          },
-          "geometry": {
-            "type": "Point",
-            "coordinates": [
-            124.3423,
-            11.3869
-            ]
-          }
-        },
-        {
-          "type": "Feature",
-          "properties": {
-            "id": "jubos",
-            "place_name":"San Isidro, Leyte",
-            "view_bounds": [
-            [11.1406767764011, 124.163360595703], [11.6764451610054, 124.560241699218]
-            ]
-          },
-          "geometry": {
-            "type": "Point",
-            "coordinates": [
-            124.36695098876952,
-            11.360558174382662
-            ]
-          }
-        },
-        {
-          "type": "Feature",
-          "properties": {
-            "id": "neri",
-            "place_name":"Banat-i, San Isidro, Leyte",
-            "view_bounds": [
-            [11.1406767764011, 124.163360595703], [11.6764451610054, 124.560241699218]
-            ]
-          },
-          "geometry": {
-            "type": "Point",
-            "coordinates": [
-            124.3948,
-            11.3688
-            ]
-          }
-        },
-        {
-          "type": "Feature",
-          "properties": {
-            "id": "remorta",
-            "place_name":"Batilisan Bawud, San Isidro, Leyte",
-            "view_bounds": [
-            [11.1406767764011, 124.163360595703], [11.6764451610054, 124.560241699218]
-            ]
-          },
-          "geometry": {
-            "type": "Point",
-            "coordinates": [
-            124.35245,
-            11.40760
-            ]
-          }
-        },
-        {
-          "type": "Feature",
-          "properties": {
             "id": "sheltergallery1",
             "place_name":"Tabontabon, Leyte",
             "view_bounds": [
@@ -316,23 +381,6 @@ if(width >= 768){
         {
           "type": "Feature",
           "properties": {
-            "id": "sheltergallery2",
-            "place_name":"Panay, Capiz",
-            "view_bounds": [
-            [11.302321124788, 122.579956054687], [11.8380895093923, 122.976837158202]
-            ]
-          },
-          "geometry": {
-            "type": "Point",
-            "coordinates": [
-            122.78938293457031,
-            11.542598193914182
-            ]
-          }
-        },
-        {
-          "type": "Feature",
-          "properties": {
             "id": "films",
             "place_name": "",
             "view_bounds": [
@@ -344,57 +392,6 @@ if(width >= 768){
             "coordinates": [
               124.8833,
               10.9833
-            ]
-          }
-        },
-        {
-          "type": "Feature",
-          "properties": {
-            "id": "roasa",
-            "place_name":"tacloban",
-            "view_bounds": [
-            [10.9978161519681, 124.840393066406], [11.5335845365724, 125.237274169921]
-            ]
-          },
-          "geometry": {
-            "type": "Point",
-            "coordinates": [
-            125.0043296813965,
-            11.223699186296267
-            ]
-          }
-        },
-        {
-          "type": "Feature",
-          "properties": {
-            "id": "pidolopez",
-            "place_name":"Tacuranga, Palo, Leyte",
-            "view_bounds": [
-            [10.9411917934565, 124.867858886718], [11.4769601780608, 125.264739990233]
-            ]
-          },
-          "geometry": {
-            "type": "Point",
-            "coordinates": [
-            124.97909545898436,
-            11.147161126102558
-            ]
-          }
-        },
-        {
-          "type": "Feature",
-          "properties": {
-            "id": "amparo",
-            "place_name":"taguig city",
-            "view_bounds": [
-            [14.2856773001825, 120.899047851562], [14.8214456847868, 121.295928955077]
-            ]
-          },
-          "geometry": {
-            "type": "Point",
-            "coordinates": [
-            121.07826232910156,
-            14.536397292888351
             ]
           }
         },
@@ -434,8 +431,8 @@ if(width >= 768){
       // define tile layer for base map
       // var tileLayerUrl = 'http://{s}.tile.openstreetmap.fr/hot/{z}/{x}/{y}.png';
       var tileLayerUrl = 'http://{s}.tiles.mapbox.com/v3/americanredcross.hcji22de/{z}/{x}/{y}.png';
-
       var tileLayer = L.tileLayer(tileLayerUrl);
+
       // setup leaflet map with desired options
       
       var storyWidth = $(window).width() * 0.60;
@@ -559,3 +556,6 @@ if(width >= 768){
       }
 
 }
+}
+
+fullSetup();
