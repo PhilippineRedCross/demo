@@ -15,6 +15,14 @@ $(window).resize(function(){
     }
 });
 
+function callImageModal(item) {
+  var imgUrl = $(item).find('img').attr("src").slice(0,-9) + 'large.jpg';
+  var img_maxHeight = (windowHeight*0.85).toString() + "px";
+  $(".modal-img").css('max-height', img_maxHeight);
+  $(".modal-img").attr('src', imgUrl);
+  $("#myImageModal").modal();    
+}
+
 
 function fullSetup(){
 
@@ -22,14 +30,7 @@ width = $(window).width();
 if(width >= 768){
       map = true;
 
-      function callImageModal (item) {
-        var imgUrl = $(item).find('img').attr("src").slice(0,-9) + 'large.jpg';
-        var img_maxHeight = (windowHeight*0.85).toString() + "px";
-        $(".modal-img").css('max-height', img_maxHeight);
-        $(".modal-img").attr('src', imgUrl);
-        $("#myImageModal").modal();    
-      }
-
+      
       $(".quickNav").html('<div class="btn-group">'+
           '<button type="button" class="btn btn-xs dropdown-toggle btn-quickNav" data-toggle="dropdown">'+ 
             '<span style="font-size:18px; color:#f5f5f5;"> ☰ </span></button>'+
