@@ -36,15 +36,16 @@ if(width >= 768){
             '<span style="font-size:18px; color:#f5f5f5;"> ☰ </span></button>'+
             '<ul class="dropdown-menu" role="menu">'+
               '<li><a href="#">Home</a></li>'+
-              '<li><a href="#icrc-emergency-guiuan"><span class="glyphicon glyphicon-picture color-green"></span>&nbsp; Emergency Phase</a></li>'+
-              '<li><a href="#icrc-recovery-guiuan"><span class="glyphicon glyphicon-picture color-green"></span>&nbsp; Recovery Phase</a></li>'+
+              '<li><a href="#icrc-emergency-guiuan"><span class="glyphicon glyphicon-picture color-green"></span>&nbsp; Emergency phase</a></li>'+
+              '<li><a href="#icrc-recovery-guiuan"><span class="glyphicon glyphicon-picture color-green"></span>&nbsp; Recovery phase</a></li>'+
               '<li><a href="#livelihoods">Livelihood Profiles</a></li>'+
               '<li><a href="#liporada"><span class="glyphicon glyphicon-user color-blue"></span>&nbsp; Maria Liporada</a></li>'+
               '<li><a href="#martinez"><span class="glyphicon glyphicon-user color-blue"></span>&nbsp; Gaspar Martinez</a></li>'+
               '<li><a href="#cabujoc"><span class="glyphicon glyphicon-user color-blue"></span>&nbsp; Joel Cabujoc</a></li>'+
-              '<li><a href="#coconutlady"><span class="glyphicon glyphicon-picture color-green"></span>&nbsp; The Coconut Lady</a></li>'+
-              '<li><a href="#shelter"><span class="glyphicon glyphicon-picture color-green"></span>&nbsp; Shelter: Building Back</a></li>'+
+              '<li><a href="#coconutlady"><span class="glyphicon glyphicon-picture color-green"></span>&nbsp; Coconut Lady</a></li>'+
+              '<li><a href="#sheltergallery1"><span class="glyphicon glyphicon-picture color-green"></span>&nbsp; Shelter - beneficiaries contribute labour to build a home</a></li>'+
               '<li><a href="#films"><span class="glyphicon glyphicon-film color-khaki"></span>&nbsp; Films</a></li>'+
+              '<li><a href="#palawangallery"><span class="glyphicon glyphicon-picture color-green"></span>&nbsp; Palawan - volunteers reaching out to tribal communities</a></li>'+
               '<li><a href="#manila"><span class="glyphicon glyphicon-info-sign color-red"></span>&nbsp; Philippine Red Cross</a></li>'+
               '<li><a href="#movement"><span class="glyphicon glyphicon-info-sign color-red"></span>&nbsp; International Red Cross and Red Crescent Movement</a></li></ul></div>');
       $(".quickNav").tooltip(); 
@@ -376,6 +377,23 @@ if(width >= 768){
             "coordinates": [
             124.96398925781249,
             11.049038346537106
+            ]
+          }
+        },
+        {
+          "type": "Feature",
+          "properties": {
+            "id": "palawangallery",
+            "place_name":"calamian islands",
+            "view_bounds": [
+            [11.8108996502773, 120.031127929687], [12.3466680348816, 120.428009033202]
+            ]
+          },
+          "geometry": {
+            "type": "Point",
+            "coordinates": [
+            120.19935607910156,
+            12.013129123340724
             ]
           }
         },

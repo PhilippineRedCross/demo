@@ -140,6 +140,8 @@ section small { color:#aaa; }
 .spot-shelter { display:none; }
 .spot-sheltergallery1 { display:none; }
 .spot-sheltergallery1.active { background:url(../img/marker-temp.png); }
+.spot-palawangallery { display:none; }
+.spot-palawangallery.active { background:url(../img/marker-temp.png); }
 .spot-films { display:none; }
 .spot-manila { display:none; }
 .spot-manila.active { background:url(../img/marker-prc.png); }
