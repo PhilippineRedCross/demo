@@ -1,4 +1,4 @@
-
+http://philippineredcross.github.io/haiyan-one-year/
 
 #### Technology Used
 
@@ -9,5 +9,3 @@
 - [Bootstrap](http://getbootstrap.com/)
 - [D3.js](http://d3js.org/)
 - [jQuery](http://jquery.com/)
-
-- [OSM Humanitarian Layer by HOT](http://hot.openstreetmap.org/)
